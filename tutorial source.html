@@ -1,0 +1,1823 @@
+<!DOCTYPE html>
+<!-- saved from url=(0077)https://testdriven.io/blog/developing-a-single-page-app-with-flask-and-vuejs/ -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="shortcut icon" type="image/png" href="https://testdriven.io/static/images/favicon.5ce1f18967ae.png">
+    
+  <!-- blog meta -->
+  <meta property="og:title" content="Developing a Single Page App with Flask and Vue.js">
+  <meta property="og:image" content="https://testdriven.io/static/images/blog/flask-vue/developing_spa_flask_vue.png">
+  <meta name="description" property="og:description" content="The following is a step-by-step walkthrough of how to set up a basic CRUD app with Vue and Flask.">
+  <meta name="keywords" content="flask, vue, vue.js, python, javascript, web dev, crud, single page application, spa, RESTful API, rest api">
+
+    
+    <title>Developing a Single Page App with Flask and Vue.js | TestDriven.io</title>
+
+    
+      <!-- Google Tag Manager -->
+      <script async="" src="./tutorial source_files/analytics.js"></script><script async="" src="./tutorial source_files/gtm.js"></script><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','GTM-57PX49D');</script>
+      <!-- End Google Tag Manager -->
+      <!-- Google Analytics -->
+      <script>
+  // google
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-100160465-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+      <!-- Google Ads -->
+      <!-- Global site tag (gtag.js) - Google Ads: 1003051861 -->
+<script async="" src="./tutorial source_files/js"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'AW-1003051861');
+</script>
+
+    
+
+    <!-- CSS Styles -->
+    <link rel="stylesheet" href="./tutorial source_files/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
+    <link href="./tutorial source_files/all.css" rel="stylesheet">
+    
+  
+  <link rel="stylesheet" href="./tutorial source_files/blog.0c51ff810a97.css">
+
+    <link rel="stylesheet" href="./tutorial source_files/base.7ba336719668.css">
+    <link rel="stylesheet" href="./tutorial source_files/pygments.7262fcc7e9ed.css">
+    
+      <link rel="stylesheet" href="./tutorial source_files/pygments_error.bbadc7ab2566.css">
+    
+  <script charset="utf-8" src="./tutorial source_files/button.d941c9a422e2e3faf474b82a1f39e936.js"></script></head>
+  <body class="">
+
+    
+      <!-- Google Tag Manager (noscript) -->
+      <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-57PX49D"
+      height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+      <!-- End Google Tag Manager (noscript) -->
+    
+
+    <!-- Nav -->
+    
+      
+        
+
+
+<nav class="navbar navbar-expand-md navbar-dark bg-dark sticky-top">
+  <a class="navbar-brand" href="https://testdriven.io/">
+    <img class="nav-logo" src="./tutorial source_files/test_driven_io_full_logo_white_text.cdecf47f78bc.svg" alt="testdriven.io">
+  </a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+    <!-- left -->
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="https://testdriven.io/blog/developing-a-single-page-app-with-flask-and-vuejs/#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Courses
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          
+          
+            <a class="dropdown-item" href="https://testdriven.io/courses/tdd-flask/">Test-Driven Development with Python, Flask, and Docker</a>
+          
+            <a class="dropdown-item" href="https://testdriven.io/courses/auth-flask-react/">Authentication with Flask, React, and Docker</a>
+          
+            <a class="dropdown-item" href="https://testdriven.io/courses/aws-flask-react/">Deploying a Flask and React Microservice to AWS ECS</a>
+          
+            <a class="dropdown-item" href="https://testdriven.io/courses/python-web-framework/">Building Your Own Python Web Framework</a>
+          
+            <a class="dropdown-item" href="https://testdriven.io/courses/real-time-app-with-django-channels-and-angular/">Developing a Real-Time Taxi App with Django Channels and Angular</a>
+          
+        </div>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="https://testdriven.io/testimonials/">Testimonials</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="https://testdriven.io/blog/">Blog</a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="https://testdriven.io/blog/developing-a-single-page-app-with-flask-and-vuejs/#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          More
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="https://testdriven.io/support/">Support and Consulting</a>
+          <a class="dropdown-item" href="https://testdriven.io/test-driven-development/">What is Test-Driven Development?</a>
+        </div>
+      </li>
+    </ul>
+    <!-- right - NOT included in hamburger menu -->
+    <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
+      <span class="ml-lg-auto d-none d-lg-flex">
+        <li class="nav-item">
+          <a class="nav-link" href="https://twitter.com/testdrivenio"><i class="fab fa-twitter"></i></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://github.com/testdrivenio"><i class="fab fa-github"></i></a>
+        </li>
+      </span>
+      
+        <li class="nav-item nav-right-btn">
+          <a class="btn btn-primary" href="https://testdriven.io/accounts/login/">Sign In</a>
+          <a class="btn btn-success" href="https://testdriven.io/accounts/signup/">Sign Up</a>
+        </li>
+      
+    </ul>
+    <!-- right - included in hamburger menu -->
+    <ul class="navbar-nav d-md-none">
+      
+        <li class="nav-item">
+          <a class="nav-link" href="https://testdriven.io/accounts/login/">Sign In</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://testdriven.io/accounts/signup/">Sign Up</a>
+        </li>
+      
+    </ul>
+  </div>
+</nav>
+
+      
+    
+
+    <!-- Main content -->
+    
+
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-9">
+        
+
+  <main>
+    
+
+    <div class="text-center" style="padding-bottom:20px;">
+      <img src="./tutorial source_files/developing_spa_flask_vue.png" style="max-width:100%" alt="python and vue">
+    </div>
+    <h1 class="d-none d-md-block">Developing a Single Page App with Flask and Vue.js</h1>
+    <h2 class="d-md-none blog-mobile-title">Developing a Single Page App with Flask and Vue.js</h2>
+    <hr><br>
+    <div class="d-none d-sm-block post-info-large">
+      <!-- hidden on screens smaller than sm -->
+      <p>
+        <span>Posted by <a href="https://testdriven.io/authors/herman/">Michael Herman</a></span>
+        <span>|</span>
+        <span>Last updated on </span>
+        <span class="badge badge-secondary">May 7th, 2019</span>
+      </p>
+    </div>
+    <div class="d-sm-none post-info-small">
+      <!-- hidden on screens wider than sm -->
+      <p>
+        <span>Posted by <a href="https://testdriven.io/authors/herman/">Michael Herman</a></span>
+        <br>
+        <span>Last updated on </span>
+        <span class="badge badge-secondary">May 7th, 2019</span>
+      </p>
+    </div>
+    <br>
+    <p></p><p>The following is a step-by-step walkthrough of how to set up a basic CRUD app with Vue and Flask. We'll start by scaffolding a new Vue application with the Vue CLI and then move on to performing the basic CRUD operations through a back-end RESTful API powered by Python and Flask.</p>
+<p><em>Final app</em>:</p>
+<p><img src="./tutorial source_files/final.gif" style="max-width:100%;" alt="final app"></p>
+<p><em>Main dependencies:</em></p>
+<ul>
+<li>Vue v2.6.10</li>
+<li>Vue CLI v3.7.0</li>
+<li>Node v12.1.0</li>
+<li>npm v6.9.0</li>
+<li>Flask v1.0.2</li>
+<li>Python v3.7.3</li>
+</ul>
+<h2 class="toc-header">Contents</h2>
+
+<div class="toc">
+<ul>
+<li><a href="https://testdriven.io/blog/developing-a-single-page-app-with-flask-and-vuejs/#objectives">Objectives</a></li>
+<li><a href="https://testdriven.io/blog/developing-a-single-page-app-with-flask-and-vuejs/#what-is-flask">What is Flask?</a></li>
+<li><a href="https://testdriven.io/blog/developing-a-single-page-app-with-flask-and-vuejs/#what-is-vue">What is Vue?</a></li>
+<li><a href="https://testdriven.io/blog/developing-a-single-page-app-with-flask-and-vuejs/#flask-setup">Flask Setup</a></li>
+<li><a href="https://testdriven.io/blog/developing-a-single-page-app-with-flask-and-vuejs/#vue-setup">Vue Setup</a></li>
+<li><a href="https://testdriven.io/blog/developing-a-single-page-app-with-flask-and-vuejs/#bootstrap-setup">Bootstrap Setup</a></li>
+<li><a href="https://testdriven.io/blog/developing-a-single-page-app-with-flask-and-vuejs/#what-are-we-building">What are we building?</a></li>
+<li><a href="https://testdriven.io/blog/developing-a-single-page-app-with-flask-and-vuejs/#get-route">GET Route</a></li>
+<li><a href="https://testdriven.io/blog/developing-a-single-page-app-with-flask-and-vuejs/#bootstrap-vue">Bootstrap Vue</a></li>
+<li><a href="https://testdriven.io/blog/developing-a-single-page-app-with-flask-and-vuejs/#post-route">POST Route</a></li>
+<li><a href="https://testdriven.io/blog/developing-a-single-page-app-with-flask-and-vuejs/#alert-component">Alert Component</a></li>
+<li><a href="https://testdriven.io/blog/developing-a-single-page-app-with-flask-and-vuejs/#put-route">PUT Route</a></li>
+<li><a href="https://testdriven.io/blog/developing-a-single-page-app-with-flask-and-vuejs/#delete-route">DELETE Route</a></li>
+<li><a href="https://testdriven.io/blog/developing-a-single-page-app-with-flask-and-vuejs/#conclusion">Conclusion</a></li>
+</ul>
+</div>
+<h2 id="objectives" style="padding-top: 60px; margin-top: -60px;">Objectives</h2>
+<p>By the end of this tutorial, you will be able to:</p>
+<ol>
+<li>Explain what Flask is</li>
+<li>Explain what Vue is and how it compares to other UI libraries and front-end frameworks like React and Angular</li>
+<li>Scaffold a Vue project using the Vue CLI</li>
+<li>Create and render Vue components in the browser</li>
+<li>Create a Single Page Application (SPA) with Vue components</li>
+<li>Connect a Vue application to a Flask back-end</li>
+<li>Develop a RESTful API with Flask</li>
+<li>Style Vue Components with Bootstrap</li>
+<li>Use the Vue Router to create routes and render components</li>
+</ol>
+<h2 id="what-is-flask" style="padding-top: 60px; margin-top: -60px;">What is Flask?</h2>
+<p><a href="http://flask.pocoo.org/">Flask</a> is a simple, yet powerful micro web framework for Python, perfect for building RESTful APIs. Like <a href="http://sinatrarb.com/">Sinatra</a> (Ruby) and <a href="https://expressjs.com/">Express</a> (Node), it's minimal and flexible, so you can start small and build up to a more complex app as needed.</p>
+<p>First time with Flask? Check out the following two resources:</p>
+<ol>
+<li><a href="https://github.com/mjhea0/flaskr-tdd">Flaskr TDD</a></li>
+<li><a href="http://mherman.org/blog/2017/04/26/flask-for-node-developers">Flask for Node Developers</a></li>
+</ol>
+<h2 id="what-is-vue" style="padding-top: 60px; margin-top: -60px;">What is Vue?</h2>
+<p><a href="https://vuejs.org/">Vue</a> is an open-source JavaScript framework used for building user interfaces. It adopted some of the best practices from React and Angular. That said, compared to React and Angular, it's much more approachable, so beginners can get up and running quickly. It's also just as powerful, so it provides all the features you'll need to create modern front-end applications.</p>
+<p>For more on Vue, along with the pros and cons of using it vs. React and Angular, review the following articles:</p>
+<ol>
+<li><a href="https://vuejs.org/v2/guide/comparison.html">Vue: Comparison with Other Frameworks</a></li>
+<li><a href="https://dzone.com/articles/react-vs-angular-vs-vuejs-a-complete-comparison-gu">React vs. Angular vs. Vue.js: A Complete Comparison Guide</a></li>
+<li><a href="https://medium.com/unicorn-supplies/angular-vs-react-vs-vue-a-2017-comparison-c5c52d620176">Angular vs. React vs. Vue: A 2017 comparison</a></li>
+</ol>
+<p>First time with Vue? Take a moment to read through the <a href="https://vuejs.org/v2/guide/index.html">Introduction</a> from the official Vue guide.</p>
+<h2 id="flask-setup" style="padding-top: 60px; margin-top: -60px;">Flask Setup</h2>
+<p>Begin by creating a new project directory:</p>
+<div class="codehilite"><pre><span></span>$ mkdir flask-vue-crud
+$ <span class="nb">cd</span> flask-vue-crud
+</pre></div>
+
+
+<p>Within "flask-vue-crud", create a new directory called "server". Then, create and activate a virtual environment inside the "server" directory:</p>
+<div class="codehilite"><pre><span></span>$ python3.7 -m venv env
+$ <span class="nb">source</span> env/bin/activate
+</pre></div>
+
+
+<blockquote>
+<p>The above commands may differ depending on your environment.</p>
+</blockquote>
+<p>Install Flask along with the <a href="https://flask-cors.readthedocs.io/">Flask-CORS</a> extension:</p>
+<div class="codehilite"><pre><span></span><span class="o">(</span>env<span class="o">)</span>$ pip install <span class="nv">Flask</span><span class="o">==</span><span class="m">1</span>.0.2 Flask-Cors<span class="o">==</span><span class="m">3</span>.0.7
+</pre></div>
+
+
+<p>Add an <em>app.py</em> file to the newly created "server" directory:</p>
+<div class="codehilite"><pre><span></span><span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Flask</span><span class="p">,</span> <span class="n">jsonify</span>
+<span class="kn">from</span> <span class="nn">flask_cors</span> <span class="kn">import</span> <span class="n">CORS</span>
+
+
+<span class="c1"># configuration</span>
+<span class="n">DEBUG</span> <span class="o">=</span> <span class="bp">True</span>
+
+<span class="c1"># instantiate the app</span>
+<span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+<span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">from_object</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+<span class="c1"># enable CORS</span>
+<span class="n">CORS</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">resources</span><span class="o">=</span><span class="p">{</span><span class="sa">r</span><span class="s1">'/*'</span><span class="p">:</span> <span class="p">{</span><span class="s1">'origins'</span><span class="p">:</span> <span class="s1">'*'</span><span class="p">}})</span>
+
+
+<span class="c1"># sanity check route</span>
+<span class="nd">@app.route</span><span class="p">(</span><span class="s1">'/ping'</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">'GET'</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">ping_pong</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="s1">'pong!'</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">'__main__'</span><span class="p">:</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+
+
+<p>Why do we need Flask-CORS? In order to make cross-origin requests -- e.g., requests that originate from a different protocol, IP address, domain name, or port -- you need to enable <a href="https://en.wikipedia.org/wiki/Cross-origin_resource_sharing">Cross Origin Resource Sharing</a> (CORS). Flask-CORS handles this for us.</p>
+<blockquote>
+<p>It's worth noting that the above setup allows cross-origin requests on <em>all</em> routes, from <em>any</em> domain, protocol, or port. In a production environment, you should <em>only</em> allow cross-origin requests from the domain where the front-end application is hosted. Refer to the <a href="https://flask-cors.readthedocs.io/">Flask-CORS documentation</a> for more info on this.</p>
+</blockquote>
+<p>Run the app:</p>
+<div class="codehilite"><pre><span></span><span class="o">(</span>env<span class="o">)</span>$ python app.py
+</pre></div>
+
+
+<p>To test, point your browser at <a href="http://localhost:5000/ping">http://localhost:5000/ping</a>. You should see:</p>
+<div class="codehilite"><pre><span></span><span class="s2">"pong!"</span>
+</pre></div>
+
+
+<p>Back in the terminal, press Ctrl+C to kill the server and then navigate back to the project root. With that, let's turn our attention to the front-end and get Vue set up.</p>
+<h2 id="vue-setup" style="padding-top: 60px; margin-top: -60px;">Vue Setup</h2>
+<p>We'll be using the powerful <a href="https://cli.vuejs.org/">Vue CLI</a> to generate a customized project boilerplate.</p>
+<p>Install it globally:</p>
+<div class="codehilite"><pre><span></span>$ npm install -g @vue/cli@3.7.0
+</pre></div>
+
+
+<blockquote>
+<p>First time with npm? Review the official <a href="https://docs.npmjs.com/about-npm/">About npm</a> guide.</p>
+</blockquote>
+<p>Then, within "flask-vue-crud", run the following command to initialize a new Vue project called <code>client</code>:</p>
+<div class="codehilite"><pre><span></span>$ vue create client
+</pre></div>
+
+
+<p>This will require you to answer a few questions about the project. Use the down arrow key to highlight "Manually select features", and then press enter.  Next, you'll need to select the features you'd like to install. For this tutorial, select "Babel", "Router", and "Linter / Formatter" like so:</p>
+<div class="codehilite"><pre><span></span>Vue CLI v3.7.0
+? Please pick a preset: Manually <span class="k">select</span> features
+? Check the features needed <span class="k">for</span> your project:
+ ◉ Babel
+ ◯ TypeScript
+ ◯ Progressive Web App <span class="o">(</span>PWA<span class="o">)</span> Support
+❯◉ Router
+ ◯ Vuex
+ ◯ CSS Pre-processors
+ ◉ Linter / Formatter
+ ◯ Unit Testing
+ ◯ E2E Testing
+</pre></div>
+
+
+<p>Use the history mode for the router. Select "ESLint + Airbnb config" for the linter and "Lint on save". Finally, select the "In package.json" option so that configuration is placed in the <em>package.json</em> file instead of in separate configuration files.</p>
+<p>You should see something similar to:</p>
+<div class="codehilite"><pre><span></span>Vue CLI v3.7.0
+? Please pick a preset: Manually <span class="k">select</span> features
+? Check the features needed <span class="k">for</span> your project: Babel, Router, Linter
+? Use <span class="nb">history</span> mode <span class="k">for</span> router? Yes
+? Pick a linter / formatter config: Airbnb
+? Pick additional lint features: Lint on save
+? Where <span class="k">do</span> you prefer placing config <span class="k">for</span> Babel, PostCSS, ESLint, etc.? In package.json
+? Save this as a preset <span class="k">for</span> future projects? <span class="o">(</span>y/N<span class="o">)</span> No
+</pre></div>
+
+
+<p>Take a quick look at the generated project structure. It may seem like a lot, but we'll <em>only</em> be dealing with the files and folders in the "src" folder along with the <em>index.html</em> file found in the "public" folder.</p>
+<p>The <em>index.html</em> file is the starting point of our Vue application.</p>
+<div class="codehilite"><pre><span></span><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="p">&lt;</span><span class="nt">html</span> <span class="na">lang</span><span class="o">=</span><span class="s">"en"</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">charset</span><span class="o">=</span><span class="s">"utf-8"</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">http-equiv</span><span class="o">=</span><span class="s">"X-UA-Compatible"</span> <span class="na">content</span><span class="o">=</span><span class="s">"IE=edge"</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">name</span><span class="o">=</span><span class="s">"viewport"</span> <span class="na">content</span><span class="o">=</span><span class="s">"width=device-width,initial-scale=1.0"</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">link</span> <span class="na">rel</span><span class="o">=</span><span class="s">"icon"</span> <span class="na">href</span><span class="o">=</span><span class="s">"&lt;%= BASE_URL %&gt;favicon.ico"</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span>client<span class="p">&lt;/</span><span class="nt">title</span><span class="p">&gt;</span>
+  <span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">noscript</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">strong</span><span class="p">&gt;</span>
+        We're sorry but client doesn't work properly without JavaScript enabled. Please enable it to continue.
+      <span class="p">&lt;/</span><span class="nt">strong</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">noscript</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">div</span> <span class="na">id</span><span class="o">=</span><span class="s">"app"</span><span class="p">&gt;&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+    <span class="c">&lt;!-- built files will be auto injected --&gt;</span>
+  <span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
+</pre></div>
+
+
+<p>Take note of the <code>&lt;div&gt;</code> element with an <code>id</code> of <code>app</code>. This is a placeholder that Vue will use to attach the generated HTML and CSS to produce the UI.</p>
+<p>Turn your attention to the folders inside the "src" folder:</p>
+<div class="codehilite"><pre><span></span>├── App.vue
+├── assets
+│&nbsp;&nbsp; └── logo.png
+├── components
+│&nbsp;&nbsp; └── HelloWorld.vue
+├── main.js
+├── router.js
+└── views
+    ├── About.vue
+    └── Home.vue
+</pre></div>
+
+
+<p>Breakdown:</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><em>main.js</em></td>
+<td>app entry point, which loads and initializes Vue along with the root component</td>
+</tr>
+<tr>
+<td><em>App.vue</em></td>
+<td>Root component, which is the starting point from which all other components will be rendered</td>
+</tr>
+<tr>
+<td>"components"</td>
+<td>where UI components are stored</td>
+</tr>
+<tr>
+<td><em>router.js</em></td>
+<td>where URLS are defined and mapped to components</td>
+</tr>
+<tr>
+<td>"views"</td>
+<td>where UI components that are tied to the router are stored</td>
+</tr>
+<tr>
+<td>"assets"</td>
+<td>where static assets, like images and fonts, are stored</td>
+</tr>
+</tbody>
+</table>
+<p>Review the <em>client/src/components/HelloWorld.vue</em> file. This is a <a href="https://vuejs.org/v2/guide/single-file-components.html">Single File</a> component, which is broken up into three different sections:</p>
+<ol>
+<li><em>template</em>: for component-specific HTML</li>
+<li><em>script</em>: where the component logic is implemented via JavaScript</li>
+<li><em>style</em>: for CSS styles</li>
+</ol>
+<p>Fire up the development server:</p>
+<div class="codehilite"><pre><span></span>$ <span class="nb">cd</span> client
+$ npm run serve
+</pre></div>
+
+
+<p>Navigate to <a href="http://localhost:8080/">http://localhost:8080</a> in the browser of your choice. You should see the following:</p>
+<p><img src="./tutorial source_files/default-vue-app.png" style="max-width:100%;" alt="default vue app"></p>
+<p>To simplify things, remove the "views" folder. Then, add a new component to the "client/src/components" folder called <em>Ping.vue</em>:</p>
+<div class="codehilite"><pre><span></span><span class="p">&lt;</span><span class="nt">template</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">div</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>{{ msg }}<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+  <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">template</span><span class="p">&gt;</span>
+
+<span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span>
+<span class="kr">export</span> <span class="k">default</span> <span class="p">{</span>
+  <span class="nx">name</span><span class="o">:</span> <span class="s1">'Ping'</span><span class="p">,</span>
+  <span class="nx">data</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">{</span>
+      <span class="nx">msg</span><span class="o">:</span> <span class="s1">'Hello!'</span><span class="p">,</span>
+    <span class="p">};</span>
+  <span class="p">},</span>
+<span class="p">};</span>
+<span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</pre></div>
+
+
+<p>Update <em>client/src/router.js</em> to map '/ping' to the <code>Ping</code> component like so:</p>
+<div class="codehilite"><pre><span></span><span class="kr">import</span> <span class="nx">Vue</span> <span class="nx">from</span> <span class="s1">'vue'</span><span class="p">;</span>
+<span class="kr">import</span> <span class="nx">Router</span> <span class="nx">from</span> <span class="s1">'vue-router'</span><span class="p">;</span>
+<span class="kr">import</span> <span class="nx">Ping</span> <span class="nx">from</span> <span class="s1">'./components/Ping.vue'</span><span class="p">;</span>
+
+<span class="nx">Vue</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">Router</span><span class="p">);</span>
+
+<span class="kr">export</span> <span class="k">default</span> <span class="k">new</span> <span class="nx">Router</span><span class="p">({</span>
+  <span class="nx">mode</span><span class="o">:</span> <span class="s1">'history'</span><span class="p">,</span>
+  <span class="nx">base</span><span class="o">:</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">BASE_URL</span><span class="p">,</span>
+  <span class="nx">routes</span><span class="o">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nx">path</span><span class="o">:</span> <span class="s1">'/ping'</span><span class="p">,</span>
+      <span class="nx">name</span><span class="o">:</span> <span class="s1">'Ping'</span><span class="p">,</span>
+      <span class="nx">component</span><span class="o">:</span> <span class="nx">Ping</span><span class="p">,</span>
+    <span class="p">}</span>
+  <span class="p">],</span>
+<span class="p">});</span>
+</pre></div>
+
+
+<p>Finally, within <em>client/src/App.vue</em>, remove the navigation:</p>
+<div class="codehilite"><pre><span></span><span class="p">&lt;</span><span class="nt">template</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">div</span> <span class="na">id</span><span class="o">=</span><span class="s">"app"</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">router-view</span><span class="p">/&gt;</span>
+  <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">template</span><span class="p">&gt;</span>
+</pre></div>
+
+
+<p>You should now see <code>Hello!</code> in the browser at <a href="http://localhost:8080/ping">http://localhost:8080/ping</a>.</p>
+<p>To connect the client-side Vue app with the back-end Flask app, we can use the <a href="https://github.com/axios/axios">axios</a> library to send AJAX requests.</p>
+<p>Start by installing it:</p>
+<div class="codehilite"><pre><span></span>$ npm install axios@0.18.0 --save
+</pre></div>
+
+
+<p>Update the <code>script</code> section of the component, in <em>Ping.vue</em>, like so:</p>
+<div class="codehilite"><pre><span></span><span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span>
+<span class="kr">import</span> <span class="nx">axios</span> <span class="nx">from</span> <span class="s1">'axios'</span><span class="p">;</span>
+
+<span class="kr">export</span> <span class="k">default</span> <span class="p">{</span>
+  <span class="nx">name</span><span class="o">:</span> <span class="s1">'Ping'</span><span class="p">,</span>
+  <span class="nx">data</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">{</span>
+      <span class="nx">msg</span><span class="o">:</span> <span class="s1">''</span><span class="p">,</span>
+    <span class="p">};</span>
+  <span class="p">},</span>
+  <span class="nx">methods</span><span class="o">:</span> <span class="p">{</span>
+    <span class="nx">getMessage</span><span class="p">()</span> <span class="p">{</span>
+      <span class="kr">const</span> <span class="nx">path</span> <span class="o">=</span> <span class="s1">'http://localhost:5000/ping'</span><span class="p">;</span>
+      <span class="nx">axios</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="nx">path</span><span class="p">)</span>
+        <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">res</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+          <span class="k">this</span><span class="p">.</span><span class="nx">msg</span> <span class="o">=</span> <span class="nx">res</span><span class="p">.</span><span class="nx">data</span><span class="p">;</span>
+        <span class="p">})</span>
+        <span class="p">.</span><span class="k">catch</span><span class="p">((</span><span class="nx">error</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+          <span class="c1">// eslint-disable-next-line</span>
+          <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="nx">error</span><span class="p">);</span>
+        <span class="p">});</span>
+    <span class="p">},</span>
+  <span class="p">},</span>
+  <span class="nx">created</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">getMessage</span><span class="p">();</span>
+  <span class="p">},</span>
+<span class="p">};</span>
+<span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</pre></div>
+
+
+<p>Fire up the Flask app in a new terminal window. You should see <code>pong!</code> in the browser. Essentially, when a response is returned from the back-end, we set <code>msg</code> to the value of <code>data</code> from the response object.</p>
+<h2 id="bootstrap-setup" style="padding-top: 60px; margin-top: -60px;">Bootstrap Setup</h2>
+<p>Next, let's add Bootstrap, a popular CSS framework, to the app so we can quickly add some style.</p>
+<p>Install:</p>
+<div class="codehilite"><pre><span></span>$ npm install bootstrap@4.3.1 --save
+</pre></div>
+
+
+<blockquote>
+<p>Ignore the warnings for <code>jquery</code> and <code>popper.js</code>. Do NOT add either to your project. More on this later.</p>
+</blockquote>
+<p>Import the Bootstrap styles to <em>client/src/main.js</em>:</p>
+<div class="codehilite"><pre><span></span><span class="kr">import</span> <span class="s1">'bootstrap/dist/css/bootstrap.css'</span><span class="p">;</span>
+<span class="kr">import</span> <span class="nx">Vue</span> <span class="nx">from</span> <span class="s1">'vue'</span><span class="p">;</span>
+<span class="kr">import</span> <span class="nx">App</span> <span class="nx">from</span> <span class="s1">'./App.vue'</span><span class="p">;</span>
+<span class="kr">import</span> <span class="nx">router</span> <span class="nx">from</span> <span class="s1">'./router'</span><span class="p">;</span>
+
+<span class="nx">Vue</span><span class="p">.</span><span class="nx">config</span><span class="p">.</span><span class="nx">productionTip</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+
+<span class="k">new</span> <span class="nx">Vue</span><span class="p">({</span>
+  <span class="nx">router</span><span class="p">,</span>
+  <span class="nx">render</span><span class="o">:</span> <span class="nx">h</span> <span class="p">=&gt;</span> <span class="nx">h</span><span class="p">(</span><span class="nx">App</span><span class="p">),</span>
+<span class="p">}).</span><span class="nx">$mount</span><span class="p">(</span><span class="s1">'#app'</span><span class="p">);</span>
+</pre></div>
+
+
+<p>Update the <code>style</code> section in <em>client/src/App.vue</em>:</p>
+<div class="codehilite"><pre><span></span><span class="p">&lt;</span><span class="nt">style</span><span class="p">&gt;</span>
+<span class="p">#</span><span class="nn">app</span> <span class="p">{</span>
+  <span class="k">margin-top</span><span class="p">:</span> <span class="mi">60</span><span class="kt">px</span>
+<span class="p">}</span>
+<span class="p">&lt;/</span><span class="nt">style</span><span class="p">&gt;</span>
+</pre></div>
+
+
+<p>Ensure Bootstrap is wired up correctly by using a <a href="https://getbootstrap.com/docs/4.0/components/buttons/">Button</a> and <a href="https://getbootstrap.com/docs/4.0/layout/overview/#containers">Container</a> in the <code>Ping</code> component:</p>
+<div class="codehilite"><pre><span></span><span class="p">&lt;</span><span class="nt">template</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">"container"</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">button</span> <span class="na">type</span><span class="o">=</span><span class="s">"button"</span> <span class="na">class</span><span class="o">=</span><span class="s">"btn btn-primary"</span><span class="p">&gt;</span>{{ msg }}<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+  <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">template</span><span class="p">&gt;</span>
+</pre></div>
+
+
+<p>Run the dev server:</p>
+<div class="codehilite"><pre><span></span>$ npm run serve
+</pre></div>
+
+
+<p>You should see:</p>
+<p><img src="./tutorial source_files/bootstrap.png" style="max-width:25%;" alt="vue with bootstrap"></p>
+<p>Next, add a new component called <code>Books</code> in a new file called <em>Books.vue</em>:</p>
+<div class="codehilite"><pre><span></span><span class="p">&lt;</span><span class="nt">template</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">"container"</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>books<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+  <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">template</span><span class="p">&gt;</span>
+</pre></div>
+
+
+<p>Update the router:</p>
+<div class="codehilite"><pre><span></span><span class="kr">import</span> <span class="nx">Vue</span> <span class="nx">from</span> <span class="s1">'vue'</span><span class="p">;</span>
+<span class="kr">import</span> <span class="nx">Router</span> <span class="nx">from</span> <span class="s1">'vue-router'</span><span class="p">;</span>
+<span class="kr">import</span> <span class="nx">Books</span> <span class="nx">from</span> <span class="s1">'./components/Books.vue'</span><span class="p">;</span>
+<span class="kr">import</span> <span class="nx">Ping</span> <span class="nx">from</span> <span class="s1">'./components/Ping.vue'</span><span class="p">;</span>
+
+<span class="nx">Vue</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">Router</span><span class="p">);</span>
+
+<span class="kr">export</span> <span class="k">default</span> <span class="k">new</span> <span class="nx">Router</span><span class="p">({</span>
+  <span class="nx">mode</span><span class="o">:</span> <span class="s1">'history'</span><span class="p">,</span>
+  <span class="nx">base</span><span class="o">:</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">BASE_URL</span><span class="p">,</span>
+  <span class="nx">routes</span><span class="o">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nx">path</span><span class="o">:</span> <span class="s1">'/'</span><span class="p">,</span>
+      <span class="nx">name</span><span class="o">:</span> <span class="s1">'Books'</span><span class="p">,</span>
+      <span class="nx">component</span><span class="o">:</span> <span class="nx">Books</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="nx">path</span><span class="o">:</span> <span class="s1">'/ping'</span><span class="p">,</span>
+      <span class="nx">name</span><span class="o">:</span> <span class="s1">'Ping'</span><span class="p">,</span>
+      <span class="nx">component</span><span class="o">:</span> <span class="nx">Ping</span><span class="p">,</span>
+    <span class="p">},</span>
+  <span class="p">],</span>
+<span class="p">});</span>
+</pre></div>
+
+
+<p>Test:</p>
+<ol>
+<li><a href="http://localhost:8080/">http://localhost:8080</a></li>
+<li><a href="http://localhost:8080/ping">http://localhost:8080/ping</a></li>
+</ol>
+<p>Finally, let's add a quick, Bootstrap-styled table to the <code>Books</code> component:</p>
+<div class="codehilite"><pre><span></span><span class="p">&lt;</span><span class="nt">template</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">"container"</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">"row"</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">"col-sm-10"</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span>Books<span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">hr</span><span class="p">&gt;&lt;</span><span class="nt">br</span><span class="p">&gt;&lt;</span><span class="nt">br</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">button</span> <span class="na">type</span><span class="o">=</span><span class="s">"button"</span> <span class="na">class</span><span class="o">=</span><span class="s">"btn btn-success btn-sm"</span><span class="p">&gt;</span>Add Book<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">br</span><span class="p">&gt;&lt;</span><span class="nt">br</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">table</span> <span class="na">class</span><span class="o">=</span><span class="s">"table table-hover"</span><span class="p">&gt;</span>
+          <span class="p">&lt;</span><span class="nt">thead</span><span class="p">&gt;</span>
+            <span class="p">&lt;</span><span class="nt">tr</span><span class="p">&gt;</span>
+              <span class="p">&lt;</span><span class="nt">th</span> <span class="na">scope</span><span class="o">=</span><span class="s">"col"</span><span class="p">&gt;</span>Title<span class="p">&lt;/</span><span class="nt">th</span><span class="p">&gt;</span>
+              <span class="p">&lt;</span><span class="nt">th</span> <span class="na">scope</span><span class="o">=</span><span class="s">"col"</span><span class="p">&gt;</span>Author<span class="p">&lt;/</span><span class="nt">th</span><span class="p">&gt;</span>
+              <span class="p">&lt;</span><span class="nt">th</span> <span class="na">scope</span><span class="o">=</span><span class="s">"col"</span><span class="p">&gt;</span>Read?<span class="p">&lt;/</span><span class="nt">th</span><span class="p">&gt;</span>
+              <span class="p">&lt;</span><span class="nt">th</span><span class="p">&gt;&lt;/</span><span class="nt">th</span><span class="p">&gt;</span>
+            <span class="p">&lt;/</span><span class="nt">tr</span><span class="p">&gt;</span>
+          <span class="p">&lt;/</span><span class="nt">thead</span><span class="p">&gt;</span>
+          <span class="p">&lt;</span><span class="nt">tbody</span><span class="p">&gt;</span>
+            <span class="p">&lt;</span><span class="nt">tr</span><span class="p">&gt;</span>
+              <span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span>foo<span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+              <span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span>bar<span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+              <span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span>foobar<span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+              <span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span>
+                <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">"btn-group"</span> <span class="na">role</span><span class="o">=</span><span class="s">"group"</span><span class="p">&gt;</span>
+                  <span class="p">&lt;</span><span class="nt">button</span> <span class="na">type</span><span class="o">=</span><span class="s">"button"</span> <span class="na">class</span><span class="o">=</span><span class="s">"btn btn-warning btn-sm"</span><span class="p">&gt;</span>Update<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+                  <span class="p">&lt;</span><span class="nt">button</span> <span class="na">type</span><span class="o">=</span><span class="s">"button"</span> <span class="na">class</span><span class="o">=</span><span class="s">"btn btn-danger btn-sm"</span><span class="p">&gt;</span>Delete<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+                <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+              <span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+            <span class="p">&lt;/</span><span class="nt">tr</span><span class="p">&gt;</span>
+          <span class="p">&lt;/</span><span class="nt">tbody</span><span class="p">&gt;</span>
+        <span class="p">&lt;/</span><span class="nt">table</span><span class="p">&gt;</span>
+      <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+  <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">template</span><span class="p">&gt;</span>
+</pre></div>
+
+
+<p>You should now see:</p>
+<p><img src="./tutorial source_files/books-component-1.png" style="max-width:100%;" alt="books component"></p>
+<p>Now we can start building out the functionality of our CRUD app.</p>
+<h2 id="what-are-we-building" style="padding-top: 60px; margin-top: -60px;">What are we building?</h2>
+<p>Our goal is to design a back-end RESTful API, powered by Python and Flask, for a single resource -- books. The API itself should follow RESTful design principles, using the basic HTTP verbs: GET, POST, PUT, and DELETE.</p>
+<p>We'll also set up a front-end application with Vue that consumes the back-end API:</p>
+<p><img src="./tutorial source_files/final.gif" style="max-width:100%;" alt="final app"></p>
+<blockquote>
+<p>This tutorial only deals with the happy path. Handling errors is a separate exercise. Check your understanding and add proper error handling on both the front and back-end.</p>
+</blockquote>
+<h2 id="get-route" style="padding-top: 60px; margin-top: -60px;">GET Route</h2>
+<h3>Server</h3>
+<p>Add a list of books to <em>server/app.py</em>:</p>
+<div class="codehilite"><pre><span></span><span class="n">BOOKS</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">{</span>
+        <span class="s1">'title'</span><span class="p">:</span> <span class="s1">'On the Road'</span><span class="p">,</span>
+        <span class="s1">'author'</span><span class="p">:</span> <span class="s1">'Jack Kerouac'</span><span class="p">,</span>
+        <span class="s1">'read'</span><span class="p">:</span> <span class="bp">True</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+        <span class="s1">'title'</span><span class="p">:</span> <span class="s1">'Harry Potter and the Philosopher</span><span class="se">\'</span><span class="s1">s Stone'</span><span class="p">,</span>
+        <span class="s1">'author'</span><span class="p">:</span> <span class="s1">'J. K. Rowling'</span><span class="p">,</span>
+        <span class="s1">'read'</span><span class="p">:</span> <span class="bp">False</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+        <span class="s1">'title'</span><span class="p">:</span> <span class="s1">'Green Eggs and Ham'</span><span class="p">,</span>
+        <span class="s1">'author'</span><span class="p">:</span> <span class="s1">'Dr. Seuss'</span><span class="p">,</span>
+        <span class="s1">'read'</span><span class="p">:</span> <span class="bp">True</span>
+    <span class="p">}</span>
+<span class="p">]</span>
+</pre></div>
+
+
+<p>Add the route handler:</p>
+<div class="codehilite"><pre><span></span><span class="nd">@app.route</span><span class="p">(</span><span class="s1">'/books'</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">'GET'</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">all_books</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span>
+        <span class="s1">'status'</span><span class="p">:</span> <span class="s1">'success'</span><span class="p">,</span>
+        <span class="s1">'books'</span><span class="p">:</span> <span class="n">BOOKS</span>
+    <span class="p">})</span>
+</pre></div>
+
+
+<p>Run the Flask app, if it's not already running, and then manually test out the route at <a href="http://localhost:5000/books">http://localhost:5000/books</a>.</p>
+<blockquote>
+<p>Looking for an extra challenge? Write an automated test for this. Review <a href="https://github.com/mjhea0/flaskr-tdd">this</a> resource for more info on testing a Flask app.</p>
+</blockquote>
+<h3>Client</h3>
+<p>Update the component:</p>
+<div class="codehilite"><pre><span></span><span class="p">&lt;</span><span class="nt">template</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">"container"</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">"row"</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">"col-sm-10"</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span>Books<span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">hr</span><span class="p">&gt;&lt;</span><span class="nt">br</span><span class="p">&gt;&lt;</span><span class="nt">br</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">button</span> <span class="na">type</span><span class="o">=</span><span class="s">"button"</span> <span class="na">class</span><span class="o">=</span><span class="s">"btn btn-success btn-sm"</span><span class="p">&gt;</span>Add Book<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">br</span><span class="p">&gt;&lt;</span><span class="nt">br</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">table</span> <span class="na">class</span><span class="o">=</span><span class="s">"table table-hover"</span><span class="p">&gt;</span>
+          <span class="p">&lt;</span><span class="nt">thead</span><span class="p">&gt;</span>
+            <span class="p">&lt;</span><span class="nt">tr</span><span class="p">&gt;</span>
+              <span class="p">&lt;</span><span class="nt">th</span> <span class="na">scope</span><span class="o">=</span><span class="s">"col"</span><span class="p">&gt;</span>Title<span class="p">&lt;/</span><span class="nt">th</span><span class="p">&gt;</span>
+              <span class="p">&lt;</span><span class="nt">th</span> <span class="na">scope</span><span class="o">=</span><span class="s">"col"</span><span class="p">&gt;</span>Author<span class="p">&lt;/</span><span class="nt">th</span><span class="p">&gt;</span>
+              <span class="p">&lt;</span><span class="nt">th</span> <span class="na">scope</span><span class="o">=</span><span class="s">"col"</span><span class="p">&gt;</span>Read?<span class="p">&lt;/</span><span class="nt">th</span><span class="p">&gt;</span>
+              <span class="p">&lt;</span><span class="nt">th</span><span class="p">&gt;&lt;/</span><span class="nt">th</span><span class="p">&gt;</span>
+            <span class="p">&lt;/</span><span class="nt">tr</span><span class="p">&gt;</span>
+          <span class="p">&lt;/</span><span class="nt">thead</span><span class="p">&gt;</span>
+          <span class="p">&lt;</span><span class="nt">tbody</span><span class="p">&gt;</span>
+            <span class="p">&lt;</span><span class="nt">tr</span> <span class="na">v-for</span><span class="o">=</span><span class="s">"(book, index) in books"</span> <span class="na">:key</span><span class="o">=</span><span class="s">"index"</span><span class="p">&gt;</span>
+              <span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span>{{ book.title }}<span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+              <span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span>{{ book.author }}<span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+              <span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span>
+                <span class="p">&lt;</span><span class="nt">span</span> <span class="na">v-if</span><span class="o">=</span><span class="s">"book.read"</span><span class="p">&gt;</span>Yes<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>
+                <span class="p">&lt;</span><span class="nt">span</span> <span class="na">v-else</span><span class="p">&gt;</span>No<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>
+              <span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+              <span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span>
+                <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">"btn-group"</span> <span class="na">role</span><span class="o">=</span><span class="s">"group"</span><span class="p">&gt;</span>
+                  <span class="p">&lt;</span><span class="nt">button</span> <span class="na">type</span><span class="o">=</span><span class="s">"button"</span> <span class="na">class</span><span class="o">=</span><span class="s">"btn btn-warning btn-sm"</span><span class="p">&gt;</span>Update<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+                  <span class="p">&lt;</span><span class="nt">button</span> <span class="na">type</span><span class="o">=</span><span class="s">"button"</span> <span class="na">class</span><span class="o">=</span><span class="s">"btn btn-danger btn-sm"</span><span class="p">&gt;</span>Delete<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+                <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+              <span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+            <span class="p">&lt;/</span><span class="nt">tr</span><span class="p">&gt;</span>
+          <span class="p">&lt;/</span><span class="nt">tbody</span><span class="p">&gt;</span>
+        <span class="p">&lt;/</span><span class="nt">table</span><span class="p">&gt;</span>
+      <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+  <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">template</span><span class="p">&gt;</span>
+
+<span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span>
+<span class="kr">import</span> <span class="nx">axios</span> <span class="nx">from</span> <span class="s1">'axios'</span><span class="p">;</span>
+
+<span class="kr">export</span> <span class="k">default</span> <span class="p">{</span>
+  <span class="nx">data</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">{</span>
+      <span class="nx">books</span><span class="o">:</span> <span class="p">[],</span>
+    <span class="p">};</span>
+  <span class="p">},</span>
+  <span class="nx">methods</span><span class="o">:</span> <span class="p">{</span>
+    <span class="nx">getBooks</span><span class="p">()</span> <span class="p">{</span>
+      <span class="kr">const</span> <span class="nx">path</span> <span class="o">=</span> <span class="s1">'http://localhost:5000/books'</span><span class="p">;</span>
+      <span class="nx">axios</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="nx">path</span><span class="p">)</span>
+        <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">res</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+          <span class="k">this</span><span class="p">.</span><span class="nx">books</span> <span class="o">=</span> <span class="nx">res</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">books</span><span class="p">;</span>
+        <span class="p">})</span>
+        <span class="p">.</span><span class="k">catch</span><span class="p">((</span><span class="nx">error</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+          <span class="c1">// eslint-disable-next-line</span>
+          <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="nx">error</span><span class="p">);</span>
+        <span class="p">});</span>
+    <span class="p">},</span>
+  <span class="p">},</span>
+  <span class="nx">created</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">getBooks</span><span class="p">();</span>
+  <span class="p">},</span>
+<span class="p">};</span>
+<span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</pre></div>
+
+
+<p>After the component is initialized, the <code>getBooks()</code> method is called via the <a href="https://vuejs.org/v2/api/#created">created</a> lifecycle hook, which fetches the books from the back-end endpoint we just set up.</p>
+<blockquote>
+<p>Review <a href="https://vuejs.org/v2/guide/instance.html#Instance-Lifecycle-Hooks">Instance Lifecycle Hooks</a> for more on the component lifecycle and the available methods.</p>
+</blockquote>
+<p>In the template, we iterated through the list of books via the <a href="https://vuejs.org/v2/guide/list.html">v-for</a> directive, creating a new table row on each iteration. The index value is used as the <a href="https://vuejs.org/v2/guide/list.html#key">key</a>. Finally, <a href="https://vuejs.org/v2/guide/conditional.html#v-if">v-if</a> is then used to render either <code>Yes</code> or <code>No</code>, indicating whether the user has read the book or not.</p>
+<p><img src="./tutorial source_files/books-component-2.png" style="max-width:100%;" alt="books component"></p>
+<h2 id="bootstrap-vue" style="padding-top: 60px; margin-top: -60px;">Bootstrap Vue</h2>
+<p>In the next section, we'll use a modal to add a new book. We'll add on the <a href="https://bootstrap-vue.js.org/">Bootstrap Vue</a> library for this, which provides a set of Vue components styled with Bootstrap-based HTML and CSS.</p>
+<blockquote>
+<p>Why Bootstrap Vue? Bootstrap's <a href="https://getbootstrap.com/docs/4.1/components/modal/">Modal</a> component uses <a href="https://jquery.com/">jQuery</a>, which you should avoid using with Vue together in the same project since Vue uses the <a href="https://vuejs.org/v2/guide/render-function.html#Nodes-Trees-and-the-Virtual-DOM">Virtual Dom</a> to update the DOM. In other words, if you did use jQuery to manipulate the DOM, Vue would not know about it. At the very least, if you absolutely need to use jQuery, do not use Vue and jQuery together on the same DOM elements.</p>
+</blockquote>
+<p>Install:</p>
+<div class="codehilite"><pre><span></span>$ npm install bootstrap-vue@2.0.0-rc.19 --save
+</pre></div>
+
+
+<p>Enable the Bootstrap Vue library in <em>client/src/main.js</em>:</p>
+<div class="codehilite"><pre><span></span><span class="kr">import</span> <span class="s1">'bootstrap/dist/css/bootstrap.css'</span><span class="p">;</span>
+<span class="kr">import</span> <span class="nx">BootstrapVue</span> <span class="nx">from</span> <span class="s1">'bootstrap-vue'</span><span class="p">;</span>
+<span class="kr">import</span> <span class="nx">Vue</span> <span class="nx">from</span> <span class="s1">'vue'</span><span class="p">;</span>
+<span class="kr">import</span> <span class="nx">App</span> <span class="nx">from</span> <span class="s1">'./App.vue'</span><span class="p">;</span>
+<span class="kr">import</span> <span class="nx">router</span> <span class="nx">from</span> <span class="s1">'./router'</span><span class="p">;</span>
+
+<span class="nx">Vue</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">BootstrapVue</span><span class="p">);</span>
+
+<span class="nx">Vue</span><span class="p">.</span><span class="nx">config</span><span class="p">.</span><span class="nx">productionTip</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+
+<span class="k">new</span> <span class="nx">Vue</span><span class="p">({</span>
+  <span class="nx">router</span><span class="p">,</span>
+  <span class="nx">render</span><span class="o">:</span> <span class="nx">h</span> <span class="p">=&gt;</span> <span class="nx">h</span><span class="p">(</span><span class="nx">App</span><span class="p">),</span>
+<span class="p">}).</span><span class="nx">$mount</span><span class="p">(</span><span class="s1">'#app'</span><span class="p">);</span>
+</pre></div>
+
+
+<h2 id="post-route" style="padding-top: 60px; margin-top: -60px;">POST Route</h2>
+<h3>Server</h3>
+<p>Update the existing route handler to handle POST requests for adding a new book:</p>
+<div class="codehilite"><pre><span></span><span class="nd">@app.route</span><span class="p">(</span><span class="s1">'/books'</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">'GET'</span><span class="p">,</span> <span class="s1">'POST'</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">all_books</span><span class="p">():</span>
+    <span class="n">response_object</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'status'</span><span class="p">:</span> <span class="s1">'success'</span><span class="p">}</span>
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s1">'POST'</span><span class="p">:</span>
+        <span class="n">post_data</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">get_json</span><span class="p">()</span>
+        <span class="n">BOOKS</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+            <span class="s1">'title'</span><span class="p">:</span> <span class="n">post_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'title'</span><span class="p">),</span>
+            <span class="s1">'author'</span><span class="p">:</span> <span class="n">post_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'author'</span><span class="p">),</span>
+            <span class="s1">'read'</span><span class="p">:</span> <span class="n">post_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'read'</span><span class="p">)</span>
+        <span class="p">})</span>
+        <span class="n">response_object</span><span class="p">[</span><span class="s1">'message'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'Book added!'</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">response_object</span><span class="p">[</span><span class="s1">'books'</span><span class="p">]</span> <span class="o">=</span> <span class="n">BOOKS</span>
+    <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">)</span>
+</pre></div>
+
+
+<p>Update the imports:</p>
+<div class="codehilite"><pre><span></span><span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Flask</span><span class="p">,</span> <span class="n">jsonify</span><span class="p">,</span> <span class="n">request</span>
+</pre></div>
+
+
+<p>With the Flask server running, you can test the POST route in a new terminal tab:</p>
+<div class="codehilite"><pre><span></span>$ curl -X POST http://localhost:5000/books -d <span class="se">\</span>
+  <span class="s1">'{"title": "1Q84", "author": "Haruki Murakami", "read": "true"}'</span> <span class="se">\</span>
+  -H <span class="s1">'Content-Type: application/json'</span>
+</pre></div>
+
+
+<p>You should see:</p>
+<div class="codehilite"><pre><span></span><span class="o">{</span>
+  <span class="s2">"message"</span>: <span class="s2">"Book added!"</span>,
+  <span class="s2">"status"</span>: <span class="s2">"success"</span>
+<span class="o">}</span>
+</pre></div>
+
+
+<p>You should also see the new book in the response from the <a href="http://localhost:5000/books">http://localhost:5000/books</a> endpoint.</p>
+<blockquote>
+<p>What if the title already exists? Or what if a title has more than one author? Check your understanding by handling these cases. Also, how would you handle an invalid payload where the <code>title</code>, <code>author</code>, and/or <code>read</code> is missing?</p>
+</blockquote>
+<h3>Client</h3>
+<p>On the client-side, let's add that modal now for adding a new book to the <code>Books</code> component, starting with the HTML:</p>
+<div class="codehilite"><pre><span></span><span class="p">&lt;</span><span class="nt">b-modal</span> <span class="na">ref</span><span class="o">=</span><span class="s">"addBookModal"</span>
+         <span class="na">id</span><span class="o">=</span><span class="s">"book-modal"</span>
+         <span class="na">title</span><span class="o">=</span><span class="s">"Add a new book"</span>
+         <span class="na">hide-footer</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">b-form</span> <span class="err">@</span><span class="na">submit</span><span class="o">=</span><span class="s">"onSubmit"</span> <span class="err">@</span><span class="na">reset</span><span class="o">=</span><span class="s">"onReset"</span> <span class="na">class</span><span class="o">=</span><span class="s">"w-100"</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">b-form-group</span> <span class="na">id</span><span class="o">=</span><span class="s">"form-title-group"</span>
+                <span class="na">label</span><span class="o">=</span><span class="s">"Title:"</span>
+                <span class="na">label-for</span><span class="o">=</span><span class="s">"form-title-input"</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">b-form-input</span> <span class="na">id</span><span class="o">=</span><span class="s">"form-title-input"</span>
+                    <span class="na">type</span><span class="o">=</span><span class="s">"text"</span>
+                    <span class="na">v-model</span><span class="o">=</span><span class="s">"addBookForm.title"</span>
+                    <span class="na">required</span>
+                    <span class="na">placeholder</span><span class="o">=</span><span class="s">"Enter title"</span><span class="p">&gt;</span>
+      <span class="p">&lt;/</span><span class="nt">b-form-input</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">b-form-group</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">b-form-group</span> <span class="na">id</span><span class="o">=</span><span class="s">"form-author-group"</span>
+                  <span class="na">label</span><span class="o">=</span><span class="s">"Author:"</span>
+                  <span class="na">label-for</span><span class="o">=</span><span class="s">"form-author-input"</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">b-form-input</span> <span class="na">id</span><span class="o">=</span><span class="s">"form-author-input"</span>
+                      <span class="na">type</span><span class="o">=</span><span class="s">"text"</span>
+                      <span class="na">v-model</span><span class="o">=</span><span class="s">"addBookForm.author"</span>
+                      <span class="na">required</span>
+                      <span class="na">placeholder</span><span class="o">=</span><span class="s">"Enter author"</span><span class="p">&gt;</span>
+        <span class="p">&lt;/</span><span class="nt">b-form-input</span><span class="p">&gt;</span>
+      <span class="p">&lt;/</span><span class="nt">b-form-group</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">b-form-group</span> <span class="na">id</span><span class="o">=</span><span class="s">"form-read-group"</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">b-form-checkbox-group</span> <span class="na">v-model</span><span class="o">=</span><span class="s">"addBookForm.read"</span> <span class="na">id</span><span class="o">=</span><span class="s">"form-checks"</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">b-form-checkbox</span> <span class="na">value</span><span class="o">=</span><span class="s">"true"</span><span class="p">&gt;</span>Read?<span class="p">&lt;/</span><span class="nt">b-form-checkbox</span><span class="p">&gt;</span>
+      <span class="p">&lt;/</span><span class="nt">b-form-checkbox-group</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">b-form-group</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">b-button</span> <span class="na">type</span><span class="o">=</span><span class="s">"submit"</span> <span class="na">variant</span><span class="o">=</span><span class="s">"primary"</span><span class="p">&gt;</span>Submit<span class="p">&lt;/</span><span class="nt">b-button</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">b-button</span> <span class="na">type</span><span class="o">=</span><span class="s">"reset"</span> <span class="na">variant</span><span class="o">=</span><span class="s">"danger"</span><span class="p">&gt;</span>Reset<span class="p">&lt;/</span><span class="nt">b-button</span><span class="p">&gt;</span>
+  <span class="p">&lt;/</span><span class="nt">b-form</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">b-modal</span><span class="p">&gt;</span>
+</pre></div>
+
+
+<p>Add this just before the closing <code>div</code> tag. Take a quick look at the code. <code>v-model</code> is a directive used to <a href="https://vuejs.org/v2/guide/forms.html">bind</a> input values back to the state. You'll see this in action shortly.</p>
+<blockquote>
+<p>What does <code>hide-footer</code> do? Review this on your own in the Bootstrap Vue <a href="https://bootstrap-vue.js.org/docs/components/modal/">docs</a>.</p>
+</blockquote>
+<p>Update the <code>script</code> section:</p>
+<div class="codehilite"><pre><span></span><span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span>
+<span class="kr">import</span> <span class="nx">axios</span> <span class="nx">from</span> <span class="s1">'axios'</span><span class="p">;</span>
+
+<span class="kr">export</span> <span class="k">default</span> <span class="p">{</span>
+  <span class="nx">data</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">{</span>
+      <span class="nx">books</span><span class="o">:</span> <span class="p">[],</span>
+      <span class="nx">addBookForm</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">title</span><span class="o">:</span> <span class="s1">''</span><span class="p">,</span>
+        <span class="nx">author</span><span class="o">:</span> <span class="s1">''</span><span class="p">,</span>
+        <span class="nx">read</span><span class="o">:</span> <span class="p">[],</span>
+      <span class="p">},</span>
+    <span class="p">};</span>
+  <span class="p">},</span>
+  <span class="nx">methods</span><span class="o">:</span> <span class="p">{</span>
+    <span class="nx">getBooks</span><span class="p">()</span> <span class="p">{</span>
+      <span class="kr">const</span> <span class="nx">path</span> <span class="o">=</span> <span class="s1">'http://localhost:5000/books'</span><span class="p">;</span>
+      <span class="nx">axios</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="nx">path</span><span class="p">)</span>
+        <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">res</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+          <span class="k">this</span><span class="p">.</span><span class="nx">books</span> <span class="o">=</span> <span class="nx">res</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">books</span><span class="p">;</span>
+        <span class="p">})</span>
+        <span class="p">.</span><span class="k">catch</span><span class="p">((</span><span class="nx">error</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+          <span class="c1">// eslint-disable-next-line</span>
+          <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="nx">error</span><span class="p">);</span>
+        <span class="p">});</span>
+    <span class="p">},</span>
+    <span class="nx">addBook</span><span class="p">(</span><span class="nx">payload</span><span class="p">)</span> <span class="p">{</span>
+      <span class="kr">const</span> <span class="nx">path</span> <span class="o">=</span> <span class="s1">'http://localhost:5000/books'</span><span class="p">;</span>
+      <span class="nx">axios</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="nx">path</span><span class="p">,</span> <span class="nx">payload</span><span class="p">)</span>
+        <span class="p">.</span><span class="nx">then</span><span class="p">(()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+          <span class="k">this</span><span class="p">.</span><span class="nx">getBooks</span><span class="p">();</span>
+        <span class="p">})</span>
+        <span class="p">.</span><span class="k">catch</span><span class="p">((</span><span class="nx">error</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+          <span class="c1">// eslint-disable-next-line</span>
+          <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">error</span><span class="p">);</span>
+          <span class="k">this</span><span class="p">.</span><span class="nx">getBooks</span><span class="p">();</span>
+        <span class="p">});</span>
+    <span class="p">},</span>
+    <span class="nx">initForm</span><span class="p">()</span> <span class="p">{</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">addBookForm</span><span class="p">.</span><span class="nx">title</span> <span class="o">=</span> <span class="s1">''</span><span class="p">;</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">addBookForm</span><span class="p">.</span><span class="nx">author</span> <span class="o">=</span> <span class="s1">''</span><span class="p">;</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">addBookForm</span><span class="p">.</span><span class="nx">read</span> <span class="o">=</span> <span class="p">[];</span>
+    <span class="p">},</span>
+    <span class="nx">onSubmit</span><span class="p">(</span><span class="nx">evt</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">evt</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">$refs</span><span class="p">.</span><span class="nx">addBookModal</span><span class="p">.</span><span class="nx">hide</span><span class="p">();</span>
+      <span class="kd">let</span> <span class="nx">read</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+      <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">addBookForm</span><span class="p">.</span><span class="nx">read</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="nx">read</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+      <span class="kr">const</span> <span class="nx">payload</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="nx">title</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">addBookForm</span><span class="p">.</span><span class="nx">title</span><span class="p">,</span>
+        <span class="nx">author</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">addBookForm</span><span class="p">.</span><span class="nx">author</span><span class="p">,</span>
+        <span class="nx">read</span><span class="p">,</span> <span class="c1">// property shorthand</span>
+      <span class="p">};</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">addBook</span><span class="p">(</span><span class="nx">payload</span><span class="p">);</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">initForm</span><span class="p">();</span>
+    <span class="p">},</span>
+    <span class="nx">onReset</span><span class="p">(</span><span class="nx">evt</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">evt</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">$refs</span><span class="p">.</span><span class="nx">addBookModal</span><span class="p">.</span><span class="nx">hide</span><span class="p">();</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">initForm</span><span class="p">();</span>
+    <span class="p">},</span>
+  <span class="p">},</span>
+  <span class="nx">created</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">getBooks</span><span class="p">();</span>
+  <span class="p">},</span>
+<span class="p">};</span>
+<span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</pre></div>
+
+
+<p>What's happening here?</p>
+<ol>
+<li><code>addBookForm</code> is <a href="https://vuejs.org/v2/guide/forms.html#Basic-Usage">bound</a> to the form inputs via, again, <code>v-model</code>. When one is updated, the other will be updated as well, in other words. This is called two-way binding. Take a moment to read about it <a href="https://stackoverflow.com/questions/13504906/what-is-two-way-binding">here</a>. Think about the ramifications of this. Do you think this makes state management easier or harder? How do React and Angular handle this? In my opinion, two-way binding (along with mutability) makes Vue much more approachable than React, but less scaleable in the long run.</li>
+<li><code>onSubmit</code> is fired when the user submits the form successfully. On submit, we prevent the normal browser behavior (<code>evt.preventDefault()</code>), close the modal (<code>this.$refs.addBookModal.hide()</code>), fire the <code>addBook</code> method, and clear the form (<code>initForm()</code>).</li>
+<li><code>addBook</code> sends a POST request to <code>/books</code> to add a new book.</li>
+<li>Review the rest of the changes on your own, referencing the Vue <a href="https://vuejs.org/v2/guide/">docs</a> as necessary.</li>
+</ol>
+<blockquote>
+<p>Can you think of any potential errors on the client or server? Handle these on your own to improve user experience.</p>
+</blockquote>
+<p>Finally, update the "Add Book" button in the template so that the modal is displayed when the button is clicked:</p>
+<div class="codehilite"><pre><span></span><span class="p">&lt;</span><span class="nt">button</span> <span class="na">type</span><span class="o">=</span><span class="s">"button"</span> <span class="na">class</span><span class="o">=</span><span class="s">"btn btn-success btn-sm"</span> <span class="na">v-b-modal</span><span class="err">.</span><span class="na">book-modal</span><span class="p">&gt;</span>Add Book<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+</pre></div>
+
+
+<p>The component should now look like this:</p>
+<div class="codehilite"><pre><span></span><span class="p">&lt;</span><span class="nt">template</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">"container"</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">"row"</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">"col-sm-10"</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span>Books<span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">hr</span><span class="p">&gt;&lt;</span><span class="nt">br</span><span class="p">&gt;&lt;</span><span class="nt">br</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">button</span> <span class="na">type</span><span class="o">=</span><span class="s">"button"</span> <span class="na">class</span><span class="o">=</span><span class="s">"btn btn-success btn-sm"</span> <span class="na">v-b-modal</span><span class="err">.</span><span class="na">book-modal</span><span class="p">&gt;</span>Add Book<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">br</span><span class="p">&gt;&lt;</span><span class="nt">br</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">table</span> <span class="na">class</span><span class="o">=</span><span class="s">"table table-hover"</span><span class="p">&gt;</span>
+          <span class="p">&lt;</span><span class="nt">thead</span><span class="p">&gt;</span>
+            <span class="p">&lt;</span><span class="nt">tr</span><span class="p">&gt;</span>
+              <span class="p">&lt;</span><span class="nt">th</span> <span class="na">scope</span><span class="o">=</span><span class="s">"col"</span><span class="p">&gt;</span>Title<span class="p">&lt;/</span><span class="nt">th</span><span class="p">&gt;</span>
+              <span class="p">&lt;</span><span class="nt">th</span> <span class="na">scope</span><span class="o">=</span><span class="s">"col"</span><span class="p">&gt;</span>Author<span class="p">&lt;/</span><span class="nt">th</span><span class="p">&gt;</span>
+              <span class="p">&lt;</span><span class="nt">th</span> <span class="na">scope</span><span class="o">=</span><span class="s">"col"</span><span class="p">&gt;</span>Read?<span class="p">&lt;/</span><span class="nt">th</span><span class="p">&gt;</span>
+              <span class="p">&lt;</span><span class="nt">th</span><span class="p">&gt;&lt;/</span><span class="nt">th</span><span class="p">&gt;</span>
+            <span class="p">&lt;/</span><span class="nt">tr</span><span class="p">&gt;</span>
+          <span class="p">&lt;/</span><span class="nt">thead</span><span class="p">&gt;</span>
+          <span class="p">&lt;</span><span class="nt">tbody</span><span class="p">&gt;</span>
+            <span class="p">&lt;</span><span class="nt">tr</span> <span class="na">v-for</span><span class="o">=</span><span class="s">"(book, index) in books"</span> <span class="na">:key</span><span class="o">=</span><span class="s">"index"</span><span class="p">&gt;</span>
+              <span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span>{{ book.title }}<span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+              <span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span>{{ book.author }}<span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+              <span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span>
+                <span class="p">&lt;</span><span class="nt">span</span> <span class="na">v-if</span><span class="o">=</span><span class="s">"book.read"</span><span class="p">&gt;</span>Yes<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>
+                <span class="p">&lt;</span><span class="nt">span</span> <span class="na">v-else</span><span class="p">&gt;</span>No<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>
+              <span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+              <span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span>
+                <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">"btn-group"</span> <span class="na">role</span><span class="o">=</span><span class="s">"group"</span><span class="p">&gt;</span>
+                  <span class="p">&lt;</span><span class="nt">button</span> <span class="na">type</span><span class="o">=</span><span class="s">"button"</span> <span class="na">class</span><span class="o">=</span><span class="s">"btn btn-warning btn-sm"</span><span class="p">&gt;</span>Update<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+                  <span class="p">&lt;</span><span class="nt">button</span> <span class="na">type</span><span class="o">=</span><span class="s">"button"</span> <span class="na">class</span><span class="o">=</span><span class="s">"btn btn-danger btn-sm"</span><span class="p">&gt;</span>Delete<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+                <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+              <span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+            <span class="p">&lt;/</span><span class="nt">tr</span><span class="p">&gt;</span>
+          <span class="p">&lt;/</span><span class="nt">tbody</span><span class="p">&gt;</span>
+        <span class="p">&lt;/</span><span class="nt">table</span><span class="p">&gt;</span>
+      <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">b-modal</span> <span class="na">ref</span><span class="o">=</span><span class="s">"addBookModal"</span>
+            <span class="na">id</span><span class="o">=</span><span class="s">"book-modal"</span>
+            <span class="na">title</span><span class="o">=</span><span class="s">"Add a new book"</span>
+            <span class="na">hide-footer</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">b-form</span> <span class="err">@</span><span class="na">submit</span><span class="o">=</span><span class="s">"onSubmit"</span> <span class="err">@</span><span class="na">reset</span><span class="o">=</span><span class="s">"onReset"</span> <span class="na">class</span><span class="o">=</span><span class="s">"w-100"</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">b-form-group</span> <span class="na">id</span><span class="o">=</span><span class="s">"form-title-group"</span>
+                    <span class="na">label</span><span class="o">=</span><span class="s">"Title:"</span>
+                    <span class="na">label-for</span><span class="o">=</span><span class="s">"form-title-input"</span><span class="p">&gt;</span>
+          <span class="p">&lt;</span><span class="nt">b-form-input</span> <span class="na">id</span><span class="o">=</span><span class="s">"form-title-input"</span>
+                        <span class="na">type</span><span class="o">=</span><span class="s">"text"</span>
+                        <span class="na">v-model</span><span class="o">=</span><span class="s">"addBookForm.title"</span>
+                        <span class="na">required</span>
+                        <span class="na">placeholder</span><span class="o">=</span><span class="s">"Enter title"</span><span class="p">&gt;</span>
+          <span class="p">&lt;/</span><span class="nt">b-form-input</span><span class="p">&gt;</span>
+        <span class="p">&lt;/</span><span class="nt">b-form-group</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">b-form-group</span> <span class="na">id</span><span class="o">=</span><span class="s">"form-author-group"</span>
+                      <span class="na">label</span><span class="o">=</span><span class="s">"Author:"</span>
+                      <span class="na">label-for</span><span class="o">=</span><span class="s">"form-author-input"</span><span class="p">&gt;</span>
+            <span class="p">&lt;</span><span class="nt">b-form-input</span> <span class="na">id</span><span class="o">=</span><span class="s">"form-author-input"</span>
+                          <span class="na">type</span><span class="o">=</span><span class="s">"text"</span>
+                          <span class="na">v-model</span><span class="o">=</span><span class="s">"addBookForm.author"</span>
+                          <span class="na">required</span>
+                          <span class="na">placeholder</span><span class="o">=</span><span class="s">"Enter author"</span><span class="p">&gt;</span>
+            <span class="p">&lt;/</span><span class="nt">b-form-input</span><span class="p">&gt;</span>
+          <span class="p">&lt;/</span><span class="nt">b-form-group</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">b-form-group</span> <span class="na">id</span><span class="o">=</span><span class="s">"form-read-group"</span><span class="p">&gt;</span>
+          <span class="p">&lt;</span><span class="nt">b-form-checkbox-group</span> <span class="na">v-model</span><span class="o">=</span><span class="s">"addBookForm.read"</span> <span class="na">id</span><span class="o">=</span><span class="s">"form-checks"</span><span class="p">&gt;</span>
+            <span class="p">&lt;</span><span class="nt">b-form-checkbox</span> <span class="na">value</span><span class="o">=</span><span class="s">"true"</span><span class="p">&gt;</span>Read?<span class="p">&lt;/</span><span class="nt">b-form-checkbox</span><span class="p">&gt;</span>
+          <span class="p">&lt;/</span><span class="nt">b-form-checkbox-group</span><span class="p">&gt;</span>
+        <span class="p">&lt;/</span><span class="nt">b-form-group</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">b-button-group</span><span class="p">&gt;</span>
+          <span class="p">&lt;</span><span class="nt">b-button</span> <span class="na">type</span><span class="o">=</span><span class="s">"submit"</span> <span class="na">variant</span><span class="o">=</span><span class="s">"primary"</span><span class="p">&gt;</span>Submit<span class="p">&lt;/</span><span class="nt">b-button</span><span class="p">&gt;</span>
+          <span class="p">&lt;</span><span class="nt">b-button</span> <span class="na">type</span><span class="o">=</span><span class="s">"reset"</span> <span class="na">variant</span><span class="o">=</span><span class="s">"danger"</span><span class="p">&gt;</span>Reset<span class="p">&lt;/</span><span class="nt">b-button</span><span class="p">&gt;</span>
+        <span class="p">&lt;/</span><span class="nt">b-button-group</span><span class="p">&gt;</span>
+      <span class="p">&lt;/</span><span class="nt">b-form</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">b-modal</span><span class="p">&gt;</span>
+  <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">template</span><span class="p">&gt;</span>
+
+<span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span>
+<span class="kr">import</span> <span class="nx">axios</span> <span class="nx">from</span> <span class="s1">'axios'</span><span class="p">;</span>
+
+<span class="kr">export</span> <span class="k">default</span> <span class="p">{</span>
+  <span class="nx">data</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">{</span>
+      <span class="nx">books</span><span class="o">:</span> <span class="p">[],</span>
+      <span class="nx">addBookForm</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">title</span><span class="o">:</span> <span class="s1">''</span><span class="p">,</span>
+        <span class="nx">author</span><span class="o">:</span> <span class="s1">''</span><span class="p">,</span>
+        <span class="nx">read</span><span class="o">:</span> <span class="p">[],</span>
+      <span class="p">},</span>
+    <span class="p">};</span>
+  <span class="p">},</span>
+  <span class="nx">methods</span><span class="o">:</span> <span class="p">{</span>
+    <span class="nx">getBooks</span><span class="p">()</span> <span class="p">{</span>
+      <span class="kr">const</span> <span class="nx">path</span> <span class="o">=</span> <span class="s1">'http://localhost:5000/books'</span><span class="p">;</span>
+      <span class="nx">axios</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="nx">path</span><span class="p">)</span>
+        <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">res</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+          <span class="k">this</span><span class="p">.</span><span class="nx">books</span> <span class="o">=</span> <span class="nx">res</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">books</span><span class="p">;</span>
+        <span class="p">})</span>
+        <span class="p">.</span><span class="k">catch</span><span class="p">((</span><span class="nx">error</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+          <span class="c1">// eslint-disable-next-line</span>
+          <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="nx">error</span><span class="p">);</span>
+        <span class="p">});</span>
+    <span class="p">},</span>
+    <span class="nx">addBook</span><span class="p">(</span><span class="nx">payload</span><span class="p">)</span> <span class="p">{</span>
+      <span class="kr">const</span> <span class="nx">path</span> <span class="o">=</span> <span class="s1">'http://localhost:5000/books'</span><span class="p">;</span>
+      <span class="nx">axios</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="nx">path</span><span class="p">,</span> <span class="nx">payload</span><span class="p">)</span>
+        <span class="p">.</span><span class="nx">then</span><span class="p">(()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+          <span class="k">this</span><span class="p">.</span><span class="nx">getBooks</span><span class="p">();</span>
+        <span class="p">})</span>
+        <span class="p">.</span><span class="k">catch</span><span class="p">((</span><span class="nx">error</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+          <span class="c1">// eslint-disable-next-line</span>
+          <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">error</span><span class="p">);</span>
+          <span class="k">this</span><span class="p">.</span><span class="nx">getBooks</span><span class="p">();</span>
+        <span class="p">});</span>
+    <span class="p">},</span>
+    <span class="nx">initForm</span><span class="p">()</span> <span class="p">{</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">addBookForm</span><span class="p">.</span><span class="nx">title</span> <span class="o">=</span> <span class="s1">''</span><span class="p">;</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">addBookForm</span><span class="p">.</span><span class="nx">author</span> <span class="o">=</span> <span class="s1">''</span><span class="p">;</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">addBookForm</span><span class="p">.</span><span class="nx">read</span> <span class="o">=</span> <span class="p">[];</span>
+    <span class="p">},</span>
+    <span class="nx">onSubmit</span><span class="p">(</span><span class="nx">evt</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">evt</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">$refs</span><span class="p">.</span><span class="nx">addBookModal</span><span class="p">.</span><span class="nx">hide</span><span class="p">();</span>
+      <span class="kd">let</span> <span class="nx">read</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+      <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">addBookForm</span><span class="p">.</span><span class="nx">read</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="nx">read</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+      <span class="kr">const</span> <span class="nx">payload</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="nx">title</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">addBookForm</span><span class="p">.</span><span class="nx">title</span><span class="p">,</span>
+        <span class="nx">author</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">addBookForm</span><span class="p">.</span><span class="nx">author</span><span class="p">,</span>
+        <span class="nx">read</span><span class="p">,</span> <span class="c1">// property shorthand</span>
+      <span class="p">};</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">addBook</span><span class="p">(</span><span class="nx">payload</span><span class="p">);</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">initForm</span><span class="p">();</span>
+    <span class="p">},</span>
+    <span class="nx">onReset</span><span class="p">(</span><span class="nx">evt</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">evt</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">$refs</span><span class="p">.</span><span class="nx">addBookModal</span><span class="p">.</span><span class="nx">hide</span><span class="p">();</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">initForm</span><span class="p">();</span>
+    <span class="p">},</span>
+  <span class="p">},</span>
+  <span class="nx">created</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">getBooks</span><span class="p">();</span>
+  <span class="p">},</span>
+<span class="p">};</span>
+<span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</pre></div>
+
+
+<p>Test it out! Try adding a book:</p>
+<p><img src="./tutorial source_files/add-new-book.gif" style="max-width:100%;" alt="add new book"></p>
+<h2 id="alert-component" style="padding-top: 60px; margin-top: -60px;">Alert Component</h2>
+<p>Next, let's add an <a href="https://bootstrap-vue.js.org/docs/components/alert/">Alert</a> component to display a message to the end user after a new book is added. We'll create a new component for this since it's likely that you'll use the functionality in a number of components.</p>
+<p>Add a new file called <em>Alert.vue</em> to "client/src/components":</p>
+<div class="codehilite"><pre><span></span><span class="p">&lt;</span><span class="nt">template</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>It works!<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">template</span><span class="p">&gt;</span>
+</pre></div>
+
+
+<p>Then, import it into the <code>script</code> section of the <code>Books</code> component and register the component:</p>
+<div class="codehilite"><pre><span></span><span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span>
+<span class="kr">import</span> <span class="nx">axios</span> <span class="nx">from</span> <span class="s1">'axios'</span><span class="p">;</span>
+<span class="kr">import</span> <span class="nx">Alert</span> <span class="nx">from</span> <span class="s1">'./Alert.vue'</span><span class="p">;</span>
+
+<span class="p">...</span>
+
+<span class="kr">export</span> <span class="k">default</span> <span class="p">{</span>
+  <span class="nx">data</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">{</span>
+      <span class="nx">books</span><span class="o">:</span> <span class="p">[],</span>
+      <span class="nx">addBookForm</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">title</span><span class="o">:</span> <span class="s1">''</span><span class="p">,</span>
+        <span class="nx">author</span><span class="o">:</span> <span class="s1">''</span><span class="p">,</span>
+        <span class="nx">read</span><span class="o">:</span> <span class="p">[],</span>
+      <span class="p">},</span>
+    <span class="p">};</span>
+  <span class="p">},</span>
+  <span class="nx">components</span><span class="o">:</span> <span class="p">{</span>
+    <span class="nx">alert</span><span class="o">:</span> <span class="nx">Alert</span><span class="p">,</span>
+  <span class="p">},</span>
+
+  <span class="p">...</span>
+
+<span class="p">};</span>
+<span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</pre></div>
+
+
+<p>Now, we can reference the new component in the <code>template</code> section:</p>
+<div class="codehilite"><pre><span></span><span class="p">&lt;</span><span class="nt">template</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">b-container</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">b-row</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">b-col</span> <span class="na">col</span> <span class="na">sm</span><span class="o">=</span><span class="s">"10"</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span>Books<span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">hr</span><span class="p">&gt;&lt;</span><span class="nt">br</span><span class="p">&gt;&lt;</span><span class="nt">br</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">alert</span><span class="p">&gt;&lt;/</span><span class="nt">alert</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">button</span> <span class="na">type</span><span class="o">=</span><span class="s">"button"</span> <span class="na">class</span><span class="o">=</span><span class="s">"btn btn-success btn-sm"</span> <span class="na">v-b-modal</span><span class="err">.</span><span class="na">book-modal</span><span class="p">&gt;</span>Add Book<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+
+        ...
+
+      <span class="p">&lt;/</span><span class="nt">b-col</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">b-row</span><span class="p">&gt;</span>
+  <span class="p">&lt;/</span><span class="nt">b-container</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">template</span><span class="p">&gt;</span>
+</pre></div>
+
+
+<p>Refresh the browser. You should now see:</p>
+<p><img src="./tutorial source_files/alert.png" style="max-width:100%;" alt="bootstrap alert"></p>
+<blockquote>
+<p>Review <a href="https://vuejs.org/v2/guide/index.html#Composing-with-Components">Composing with Components</a> from the official Vue docs for more info on working with components in other components.</p>
+</blockquote>
+<p>Next, let's add the actual <a href="https://bootstrap-vue.js.org/docs/components/alert/">b-alert</a> component to the template:</p>
+<div class="codehilite"><pre><span></span><span class="p">&lt;</span><span class="nt">template</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">div</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">b-alert</span> <span class="na">variant</span><span class="o">=</span><span class="s">"success"</span> <span class="na">show</span><span class="p">&gt;</span>{{ message }}<span class="p">&lt;/</span><span class="nt">b-alert</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">br</span><span class="p">&gt;</span>
+  <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">template</span><span class="p">&gt;</span>
+
+<span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span>
+<span class="kr">export</span> <span class="k">default</span> <span class="p">{</span>
+  <span class="nx">props</span><span class="o">:</span> <span class="p">[</span><span class="s1">'message'</span><span class="p">],</span>
+<span class="p">};</span>
+<span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</pre></div>
+
+
+<p>Take note of the <a href="https://vuejs.org/v2/guide/components-props.html">props</a> option in the <code>script</code> section. We can pass a message down from the parent component (<code>Books</code>) like so:</p>
+<div class="codehilite"><pre><span></span><span class="p">&lt;</span><span class="nt">alert</span> <span class="na">message</span><span class="o">=</span><span class="s">"hi"</span><span class="p">&gt;&lt;/</span><span class="nt">alert</span><span class="p">&gt;</span>
+</pre></div>
+
+
+<p>Try this out:</p>
+<p><img src="./tutorial source_files/alert-2.png" style="max-width:100%;" alt="bootstrap alert"></p>
+<blockquote>
+<p>Review the <a href="https://vuejs.org/v2/guide/components.html#Passing-Data-to-Child-Components-with-Props">docs</a> for more info on props.</p>
+</blockquote>
+<p>To make it dynamic, so that a custom message is passed down, use a <a href="https://vuejs.org/v2/guide/syntax.html#v-bind-Shorthand">binding expression</a> in <em>Books.vue</em>:</p>
+<div class="codehilite"><pre><span></span><span class="p">&lt;</span><span class="nt">alert</span> <span class="na">:message</span><span class="o">=</span><span class="s">"message"</span><span class="p">&gt;&lt;/</span><span class="nt">alert</span><span class="p">&gt;</span>
+</pre></div>
+
+
+<p>Add the <code>message</code> to the <code>data</code> options, in <em>Books.vue</em> as well:</p>
+<div class="codehilite"><pre><span></span><span class="nx">data</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="p">{</span>
+    <span class="nx">books</span><span class="o">:</span> <span class="p">[],</span>
+    <span class="nx">addBookForm</span><span class="o">:</span> <span class="p">{</span>
+      <span class="nx">title</span><span class="o">:</span> <span class="s1">''</span><span class="p">,</span>
+      <span class="nx">author</span><span class="o">:</span> <span class="s1">''</span><span class="p">,</span>
+      <span class="nx">read</span><span class="o">:</span> <span class="p">[],</span>
+    <span class="p">},</span>
+    <span class="nx">message</span><span class="o">:</span> <span class="s1">''</span><span class="p">,</span>
+  <span class="p">};</span>
+<span class="p">},</span>
+</pre></div>
+
+
+<p>Then, within <code>addBook</code>, update the message:</p>
+<div class="codehilite"><pre><span></span><span class="nx">addBook</span><span class="p">(</span><span class="nx">payload</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kr">const</span> <span class="nx">path</span> <span class="o">=</span> <span class="s1">'http://localhost:5000/books'</span><span class="p">;</span>
+  <span class="nx">axios</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="nx">path</span><span class="p">,</span> <span class="nx">payload</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">then</span><span class="p">(()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">getBooks</span><span class="p">();</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">message</span> <span class="o">=</span> <span class="s1">'Book added!'</span><span class="p">;</span>
+    <span class="p">})</span>
+    <span class="p">.</span><span class="k">catch</span><span class="p">((</span><span class="nx">error</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+      <span class="c1">// eslint-disable-next-line</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">error</span><span class="p">);</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">getBooks</span><span class="p">();</span>
+    <span class="p">});</span>
+<span class="p">},</span>
+</pre></div>
+
+
+<p>Finally, add a <code>v-if</code>, so the alert is only displayed if <code>showMessage</code> is true:</p>
+<div class="codehilite"><pre><span></span><span class="p">&lt;</span><span class="nt">alert</span> <span class="na">:message</span><span class="o">=</span><span class="s">message</span> <span class="na">v-if</span><span class="o">=</span><span class="s">"showMessage"</span><span class="p">&gt;&lt;/</span><span class="nt">alert</span><span class="p">&gt;</span>
+</pre></div>
+
+
+<p>Add <code>showMessage</code> to the <code>data</code>:</p>
+<div class="codehilite"><pre><span></span><span class="nx">data</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="p">{</span>
+    <span class="nx">books</span><span class="o">:</span> <span class="p">[],</span>
+    <span class="nx">addBookForm</span><span class="o">:</span> <span class="p">{</span>
+      <span class="nx">title</span><span class="o">:</span> <span class="s1">''</span><span class="p">,</span>
+      <span class="nx">author</span><span class="o">:</span> <span class="s1">''</span><span class="p">,</span>
+      <span class="nx">read</span><span class="o">:</span> <span class="p">[],</span>
+    <span class="p">},</span>
+    <span class="nx">message</span><span class="o">:</span> <span class="s1">''</span><span class="p">,</span>
+    <span class="nx">showMessage</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+  <span class="p">};</span>
+<span class="p">},</span>
+</pre></div>
+
+
+<p>Update <code>addBook</code> again, setting <code>showMessage</code> to <code>true</code>:</p>
+<div class="codehilite"><pre><span></span><span class="nx">addBook</span><span class="p">(</span><span class="nx">payload</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kr">const</span> <span class="nx">path</span> <span class="o">=</span> <span class="s1">'http://localhost:5000/books'</span><span class="p">;</span>
+  <span class="nx">axios</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="nx">path</span><span class="p">,</span> <span class="nx">payload</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">then</span><span class="p">(()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">getBooks</span><span class="p">();</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">message</span> <span class="o">=</span> <span class="s1">'Book added!'</span><span class="p">;</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">showMessage</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+    <span class="p">})</span>
+    <span class="p">.</span><span class="k">catch</span><span class="p">((</span><span class="nx">error</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+      <span class="c1">// eslint-disable-next-line</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">error</span><span class="p">);</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">getBooks</span><span class="p">();</span>
+    <span class="p">});</span>
+<span class="p">},</span>
+</pre></div>
+
+
+<p>Test it out!</p>
+<p><img src="./tutorial source_files/add-new-book-2.gif" style="max-width:100%;" alt="add new book"></p>
+<blockquote>
+<p>Challenges:</p>
+<ol>
+<li>Think about where <code>showMessage</code> should be set to <code>false</code>. Update your code.</li>
+<li>Try using the Alert component to display errors.</li>
+<li>Refactor the alert to be <a href="https://bootstrap-vue.js.org/docs/components/alert/#dismissible-alerts">dismissible</a>.</li>
+</ol>
+</blockquote>
+<h2 id="put-route" style="padding-top: 60px; margin-top: -60px;">PUT Route</h2>
+<h3>Server</h3>
+<p>For updates, we'll need to use a unique identifier since we can't depend on the title to be unique. We can use <code>uuid</code> from the Python <a href="https://docs.python.org/3/library/uuid.html">standard library</a>.</p>
+<p>Update <code>BOOKS</code> in <em>server/app.py</em>:</p>
+<div class="codehilite"><pre><span></span><span class="n">BOOKS</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">{</span>
+        <span class="s1">'id'</span><span class="p">:</span> <span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">()</span><span class="o">.</span><span class="n">hex</span><span class="p">,</span>
+        <span class="s1">'title'</span><span class="p">:</span> <span class="s1">'On the Road'</span><span class="p">,</span>
+        <span class="s1">'author'</span><span class="p">:</span> <span class="s1">'Jack Kerouac'</span><span class="p">,</span>
+        <span class="s1">'read'</span><span class="p">:</span> <span class="bp">True</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+        <span class="s1">'id'</span><span class="p">:</span> <span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">()</span><span class="o">.</span><span class="n">hex</span><span class="p">,</span>
+        <span class="s1">'title'</span><span class="p">:</span> <span class="s1">'Harry Potter and the Philosopher</span><span class="se">\'</span><span class="s1">s Stone'</span><span class="p">,</span>
+        <span class="s1">'author'</span><span class="p">:</span> <span class="s1">'J. K. Rowling'</span><span class="p">,</span>
+        <span class="s1">'read'</span><span class="p">:</span> <span class="bp">False</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+        <span class="s1">'id'</span><span class="p">:</span> <span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">()</span><span class="o">.</span><span class="n">hex</span><span class="p">,</span>
+        <span class="s1">'title'</span><span class="p">:</span> <span class="s1">'Green Eggs and Ham'</span><span class="p">,</span>
+        <span class="s1">'author'</span><span class="p">:</span> <span class="s1">'Dr. Seuss'</span><span class="p">,</span>
+        <span class="s1">'read'</span><span class="p">:</span> <span class="bp">True</span>
+    <span class="p">}</span>
+<span class="p">]</span>
+</pre></div>
+
+
+<p>Don't forget the import:</p>
+<div class="codehilite"><pre><span></span><span class="kn">import</span> <span class="nn">uuid</span>
+</pre></div>
+
+
+<p>Refactor <code>all_books</code> to account for the unique id when a new book is added:</p>
+<div class="codehilite"><pre><span></span><span class="nd">@app.route</span><span class="p">(</span><span class="s1">'/books'</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">'GET'</span><span class="p">,</span> <span class="s1">'POST'</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">all_books</span><span class="p">():</span>
+    <span class="n">response_object</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'status'</span><span class="p">:</span> <span class="s1">'success'</span><span class="p">}</span>
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s1">'POST'</span><span class="p">:</span>
+        <span class="n">post_data</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">get_json</span><span class="p">()</span>
+        <span class="n">BOOKS</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+            <span class="s1">'id'</span><span class="p">:</span> <span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">()</span><span class="o">.</span><span class="n">hex</span><span class="p">,</span>
+            <span class="s1">'title'</span><span class="p">:</span> <span class="n">post_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'title'</span><span class="p">),</span>
+            <span class="s1">'author'</span><span class="p">:</span> <span class="n">post_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'author'</span><span class="p">),</span>
+            <span class="s1">'read'</span><span class="p">:</span> <span class="n">post_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'read'</span><span class="p">)</span>
+        <span class="p">})</span>
+        <span class="n">response_object</span><span class="p">[</span><span class="s1">'message'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'Book added!'</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">response_object</span><span class="p">[</span><span class="s1">'books'</span><span class="p">]</span> <span class="o">=</span> <span class="n">BOOKS</span>
+    <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">)</span>
+</pre></div>
+
+
+<p>Add a new route handler:</p>
+<div class="codehilite"><pre><span></span><span class="nd">@app.route</span><span class="p">(</span><span class="s1">'/books/&lt;book_id&gt;'</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">'PUT'</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">single_book</span><span class="p">(</span><span class="n">book_id</span><span class="p">):</span>
+    <span class="n">response_object</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'status'</span><span class="p">:</span> <span class="s1">'success'</span><span class="p">}</span>
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s1">'PUT'</span><span class="p">:</span>
+        <span class="n">post_data</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">get_json</span><span class="p">()</span>
+        <span class="n">remove_book</span><span class="p">(</span><span class="n">book_id</span><span class="p">)</span>
+        <span class="n">BOOKS</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+            <span class="s1">'id'</span><span class="p">:</span> <span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">()</span><span class="o">.</span><span class="n">hex</span><span class="p">,</span>
+            <span class="s1">'title'</span><span class="p">:</span> <span class="n">post_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'title'</span><span class="p">),</span>
+            <span class="s1">'author'</span><span class="p">:</span> <span class="n">post_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'author'</span><span class="p">),</span>
+            <span class="s1">'read'</span><span class="p">:</span> <span class="n">post_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'read'</span><span class="p">)</span>
+        <span class="p">})</span>
+        <span class="n">response_object</span><span class="p">[</span><span class="s1">'message'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'Book updated!'</span>
+    <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">)</span>
+</pre></div>
+
+
+<p>Add the helper:</p>
+<div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">remove_book</span><span class="p">(</span><span class="n">book_id</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">book</span> <span class="ow">in</span> <span class="n">BOOKS</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">book</span><span class="p">[</span><span class="s1">'id'</span><span class="p">]</span> <span class="o">==</span> <span class="n">book_id</span><span class="p">:</span>
+            <span class="n">BOOKS</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">book</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">True</span>
+    <span class="k">return</span> <span class="bp">False</span>
+</pre></div>
+
+
+<blockquote>
+<p>Take a moment to think about how you would handle the case of an <code>id</code> not existing. What if the payload is not correct? Refactor the for loop in the helper as well so that it's more Pythonic.</p>
+</blockquote>
+<h3>Client</h3>
+<p>Steps:</p>
+<ol>
+<li>Add modal and form</li>
+<li>Handle update button click</li>
+<li>Wire up AJAX request</li>
+<li>Alert user</li>
+<li>Handle cancel button click</li>
+</ol>
+<h4>(1) Add modal and form</h4>
+<p>First, add a new modal to the template, just below the first modal:</p>
+<div class="codehilite"><pre><span></span><span class="p">&lt;</span><span class="nt">b-modal</span> <span class="na">ref</span><span class="o">=</span><span class="s">"editBookModal"</span>
+         <span class="na">id</span><span class="o">=</span><span class="s">"book-update-modal"</span>
+         <span class="na">title</span><span class="o">=</span><span class="s">"Update"</span>
+         <span class="na">hide-footer</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">b-form</span> <span class="err">@</span><span class="na">submit</span><span class="o">=</span><span class="s">"onSubmitUpdate"</span> <span class="err">@</span><span class="na">reset</span><span class="o">=</span><span class="s">"onResetUpdate"</span> <span class="na">class</span><span class="o">=</span><span class="s">"w-100"</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">b-form-group</span> <span class="na">id</span><span class="o">=</span><span class="s">"form-title-edit-group"</span>
+                <span class="na">label</span><span class="o">=</span><span class="s">"Title:"</span>
+                <span class="na">label-for</span><span class="o">=</span><span class="s">"form-title-edit-input"</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">b-form-input</span> <span class="na">id</span><span class="o">=</span><span class="s">"form-title-edit-input"</span>
+                    <span class="na">type</span><span class="o">=</span><span class="s">"text"</span>
+                    <span class="na">v-model</span><span class="o">=</span><span class="s">"editForm.title"</span>
+                    <span class="na">required</span>
+                    <span class="na">placeholder</span><span class="o">=</span><span class="s">"Enter title"</span><span class="p">&gt;</span>
+      <span class="p">&lt;/</span><span class="nt">b-form-input</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">b-form-group</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">b-form-group</span> <span class="na">id</span><span class="o">=</span><span class="s">"form-author-edit-group"</span>
+                  <span class="na">label</span><span class="o">=</span><span class="s">"Author:"</span>
+                  <span class="na">label-for</span><span class="o">=</span><span class="s">"form-author-edit-input"</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">b-form-input</span> <span class="na">id</span><span class="o">=</span><span class="s">"form-author-edit-input"</span>
+                      <span class="na">type</span><span class="o">=</span><span class="s">"text"</span>
+                      <span class="na">v-model</span><span class="o">=</span><span class="s">"editForm.author"</span>
+                      <span class="na">required</span>
+                      <span class="na">placeholder</span><span class="o">=</span><span class="s">"Enter author"</span><span class="p">&gt;</span>
+        <span class="p">&lt;/</span><span class="nt">b-form-input</span><span class="p">&gt;</span>
+      <span class="p">&lt;/</span><span class="nt">b-form-group</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">b-form-group</span> <span class="na">id</span><span class="o">=</span><span class="s">"form-read-edit-group"</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">b-form-checkbox-group</span> <span class="na">v-model</span><span class="o">=</span><span class="s">"editForm.read"</span> <span class="na">id</span><span class="o">=</span><span class="s">"form-checks"</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">b-form-checkbox</span> <span class="na">value</span><span class="o">=</span><span class="s">"true"</span><span class="p">&gt;</span>Read?<span class="p">&lt;/</span><span class="nt">b-form-checkbox</span><span class="p">&gt;</span>
+      <span class="p">&lt;/</span><span class="nt">b-form-checkbox-group</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">b-form-group</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">b-button-group</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">b-button</span> <span class="na">type</span><span class="o">=</span><span class="s">"submit"</span> <span class="na">variant</span><span class="o">=</span><span class="s">"primary"</span><span class="p">&gt;</span>Update<span class="p">&lt;/</span><span class="nt">b-button</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">b-button</span> <span class="na">type</span><span class="o">=</span><span class="s">"reset"</span> <span class="na">variant</span><span class="o">=</span><span class="s">"danger"</span><span class="p">&gt;</span>Cancel<span class="p">&lt;/</span><span class="nt">b-button</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">b-button-group</span><span class="p">&gt;</span>
+  <span class="p">&lt;/</span><span class="nt">b-form</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">b-modal</span><span class="p">&gt;</span>
+</pre></div>
+
+
+<p>Add the form state to the <code>data</code> part of the <code>script</code> section:</p>
+<div class="codehilite"><pre><span></span><span class="nx">editForm</span><span class="o">:</span> <span class="p">{</span>
+  <span class="nx">id</span><span class="o">:</span> <span class="s1">''</span><span class="p">,</span>
+  <span class="nx">title</span><span class="o">:</span> <span class="s1">''</span><span class="p">,</span>
+  <span class="nx">author</span><span class="o">:</span> <span class="s1">''</span><span class="p">,</span>
+  <span class="nx">read</span><span class="o">:</span> <span class="p">[],</span>
+<span class="p">},</span>
+</pre></div>
+
+
+<blockquote>
+<p>Challenge: Instead of using a new modal, try using the same modal for handling both POST and PUT requests.</p>
+</blockquote>
+<h4>(2) Handle update button click</h4>
+<p>Update the "update" button in the table:</p>
+<div class="codehilite"><pre><span></span><span class="p">&lt;</span><span class="nt">button</span>
+        <span class="na">type</span><span class="o">=</span><span class="s">"button"</span>
+        <span class="na">class</span><span class="o">=</span><span class="s">"btn btn-warning btn-sm"</span>
+        <span class="na">v-b-modal</span><span class="err">.</span><span class="na">book-update-modal</span>
+        <span class="err">@</span><span class="na">click</span><span class="o">=</span><span class="s">"editBook(book)"</span><span class="p">&gt;</span>
+    Update
+<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+</pre></div>
+
+
+<p>Add a new method to update the values in <code>editForm</code>:</p>
+<div class="codehilite"><pre><span></span><span class="nx">editBook</span><span class="p">(</span><span class="nx">book</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">editForm</span> <span class="o">=</span> <span class="nx">book</span><span class="p">;</span>
+<span class="p">},</span>
+</pre></div>
+
+
+<p>Then, add a method to handle the form submit:</p>
+<div class="codehilite"><pre><span></span><span class="nx">onSubmitUpdate</span><span class="p">(</span><span class="nx">evt</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">evt</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">$refs</span><span class="p">.</span><span class="nx">editBookModal</span><span class="p">.</span><span class="nx">hide</span><span class="p">();</span>
+  <span class="kd">let</span> <span class="nx">read</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+  <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">editForm</span><span class="p">.</span><span class="nx">read</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="nx">read</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+  <span class="kr">const</span> <span class="nx">payload</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="nx">title</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">editForm</span><span class="p">.</span><span class="nx">title</span><span class="p">,</span>
+    <span class="nx">author</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">editForm</span><span class="p">.</span><span class="nx">author</span><span class="p">,</span>
+    <span class="nx">read</span><span class="p">,</span>
+  <span class="p">};</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">updateBook</span><span class="p">(</span><span class="nx">payload</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">editForm</span><span class="p">.</span><span class="nx">id</span><span class="p">);</span>
+<span class="p">},</span>
+</pre></div>
+
+
+<h4>(3) Wire up AJAX request</h4>
+<div class="codehilite"><pre><span></span><span class="nx">updateBook</span><span class="p">(</span><span class="nx">payload</span><span class="p">,</span> <span class="nx">bookID</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kr">const</span> <span class="nx">path</span> <span class="o">=</span> <span class="sb">`http://localhost:5000/books/</span><span class="si">${</span><span class="nx">bookID</span><span class="si">}</span><span class="sb">`</span><span class="p">;</span>
+  <span class="nx">axios</span><span class="p">.</span><span class="nx">put</span><span class="p">(</span><span class="nx">path</span><span class="p">,</span> <span class="nx">payload</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">then</span><span class="p">(()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">getBooks</span><span class="p">();</span>
+    <span class="p">})</span>
+    <span class="p">.</span><span class="k">catch</span><span class="p">((</span><span class="nx">error</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+      <span class="c1">// eslint-disable-next-line</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="nx">error</span><span class="p">);</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">getBooks</span><span class="p">();</span>
+    <span class="p">});</span>
+<span class="p">},</span>
+</pre></div>
+
+
+<h4>(4) Alert user</h4>
+<p>Update <code>updateBook</code>:</p>
+<div class="codehilite"><pre><span></span><span class="nx">updateBook</span><span class="p">(</span><span class="nx">payload</span><span class="p">,</span> <span class="nx">bookID</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kr">const</span> <span class="nx">path</span> <span class="o">=</span> <span class="sb">`http://localhost:5000/books/</span><span class="si">${</span><span class="nx">bookID</span><span class="si">}</span><span class="sb">`</span><span class="p">;</span>
+  <span class="nx">axios</span><span class="p">.</span><span class="nx">put</span><span class="p">(</span><span class="nx">path</span><span class="p">,</span> <span class="nx">payload</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">then</span><span class="p">(()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">getBooks</span><span class="p">();</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">message</span> <span class="o">=</span> <span class="s1">'Book updated!'</span><span class="p">;</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">showMessage</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+    <span class="p">})</span>
+    <span class="p">.</span><span class="k">catch</span><span class="p">((</span><span class="nx">error</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+      <span class="c1">// eslint-disable-next-line</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="nx">error</span><span class="p">);</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">getBooks</span><span class="p">();</span>
+    <span class="p">});</span>
+<span class="p">},</span>
+</pre></div>
+
+
+<h4>(5) Handle cancel button click</h4>
+<p>Add method:</p>
+<div class="codehilite"><pre><span></span><span class="nx">onResetUpdate</span><span class="p">(</span><span class="nx">evt</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">evt</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">$refs</span><span class="p">.</span><span class="nx">editBookModal</span><span class="p">.</span><span class="nx">hide</span><span class="p">();</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">initForm</span><span class="p">();</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">getBooks</span><span class="p">();</span> <span class="c1">// why?</span>
+<span class="p">},</span>
+</pre></div>
+
+
+<p>Update <code>initForm</code>:</p>
+<div class="codehilite"><pre><span></span><span class="nx">initForm</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">addBookForm</span><span class="p">.</span><span class="nx">title</span> <span class="o">=</span> <span class="s1">''</span><span class="p">;</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">addBookForm</span><span class="p">.</span><span class="nx">author</span> <span class="o">=</span> <span class="s1">''</span><span class="p">;</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">addBookForm</span><span class="p">.</span><span class="nx">read</span> <span class="o">=</span> <span class="p">[];</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">editForm</span><span class="p">.</span><span class="nx">id</span> <span class="o">=</span> <span class="s1">''</span><span class="p">;</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">editForm</span><span class="p">.</span><span class="nx">title</span> <span class="o">=</span> <span class="s1">''</span><span class="p">;</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">editForm</span><span class="p">.</span><span class="nx">author</span> <span class="o">=</span> <span class="s1">''</span><span class="p">;</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">editForm</span><span class="p">.</span><span class="nx">read</span> <span class="o">=</span> <span class="p">[];</span>
+<span class="p">},</span>
+</pre></div>
+
+
+<p>Make sure to review the code before moving on. Once done, test out the application. Ensure the modal is displayed on the button click and that the input values are populated correctly.</p>
+<p><img src="./tutorial source_files/update-book.gif" style="max-width:100%;" alt="update book"></p>
+<h2 id="delete-route" style="padding-top: 60px; margin-top: -60px;">DELETE Route</h2>
+<h3>Server</h3>
+<p>Update the route handler:</p>
+<div class="codehilite"><pre><span></span><span class="nd">@app.route</span><span class="p">(</span><span class="s1">'/books/&lt;book_id&gt;'</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">'PUT'</span><span class="p">,</span> <span class="s1">'DELETE'</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">single_book</span><span class="p">(</span><span class="n">book_id</span><span class="p">):</span>
+    <span class="n">response_object</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'status'</span><span class="p">:</span> <span class="s1">'success'</span><span class="p">}</span>
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s1">'PUT'</span><span class="p">:</span>
+        <span class="n">post_data</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">get_json</span><span class="p">()</span>
+        <span class="n">remove_book</span><span class="p">(</span><span class="n">book_id</span><span class="p">)</span>
+        <span class="n">BOOKS</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+            <span class="s1">'id'</span><span class="p">:</span> <span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">()</span><span class="o">.</span><span class="n">hex</span><span class="p">,</span>
+            <span class="s1">'title'</span><span class="p">:</span> <span class="n">post_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'title'</span><span class="p">),</span>
+            <span class="s1">'author'</span><span class="p">:</span> <span class="n">post_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'author'</span><span class="p">),</span>
+            <span class="s1">'read'</span><span class="p">:</span> <span class="n">post_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'read'</span><span class="p">)</span>
+        <span class="p">})</span>
+        <span class="n">response_object</span><span class="p">[</span><span class="s1">'message'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'Book updated!'</span>
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s1">'DELETE'</span><span class="p">:</span>
+        <span class="n">remove_book</span><span class="p">(</span><span class="n">book_id</span><span class="p">)</span>
+        <span class="n">response_object</span><span class="p">[</span><span class="s1">'message'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'Book removed!'</span>
+    <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">)</span>
+</pre></div>
+
+
+<h3>Client</h3>
+<p>Update the "delete" button like so:</p>
+<div class="codehilite"><pre><span></span><span class="p">&lt;</span><span class="nt">button</span>
+        <span class="na">type</span><span class="o">=</span><span class="s">"button"</span>
+        <span class="na">class</span><span class="o">=</span><span class="s">"btn btn-danger btn-sm"</span>
+        <span class="err">@</span><span class="na">click</span><span class="o">=</span><span class="s">"onDeleteBook(book)"</span><span class="p">&gt;</span>
+    Delete
+<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+</pre></div>
+
+
+<p>Add the methods to handle the button click and then remove the book:</p>
+<div class="codehilite"><pre><span></span><span class="nx">removeBook</span><span class="p">(</span><span class="nx">bookID</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kr">const</span> <span class="nx">path</span> <span class="o">=</span> <span class="sb">`http://localhost:5000/books/</span><span class="si">${</span><span class="nx">bookID</span><span class="si">}</span><span class="sb">`</span><span class="p">;</span>
+  <span class="nx">axios</span><span class="p">.</span><span class="k">delete</span><span class="p">(</span><span class="nx">path</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">then</span><span class="p">(()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">getBooks</span><span class="p">();</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">message</span> <span class="o">=</span> <span class="s1">'Book removed!'</span><span class="p">;</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">showMessage</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+    <span class="p">})</span>
+    <span class="p">.</span><span class="k">catch</span><span class="p">((</span><span class="nx">error</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+      <span class="c1">// eslint-disable-next-line</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="nx">error</span><span class="p">);</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">getBooks</span><span class="p">();</span>
+    <span class="p">});</span>
+<span class="p">},</span>
+<span class="nx">onDeleteBook</span><span class="p">(</span><span class="nx">book</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">removeBook</span><span class="p">(</span><span class="nx">book</span><span class="p">.</span><span class="nx">id</span><span class="p">);</span>
+<span class="p">},</span>
+</pre></div>
+
+
+<p>Now, when the user clicks the delete button, the <code>onDeleteBook</code> method is fired, which, in turn, fires the <code>removeBook</code> method. This method sends the DELETE request to the back-end. When the response comes back, the alert message is displayed and <code>getBooks</code> is ran.</p>
+<blockquote>
+<p>Challenges:</p>
+<ol>
+<li>Instead of deleting on the button click, add a confirmation alert.</li>
+<li>Display a message saying, like "No books! Please add one.", when no books are present.</li>
+</ol>
+</blockquote>
+<p><img src="./tutorial source_files/delete-book.gif" style="max-width:100%;" alt="delete book"></p>
+<h2 id="conclusion" style="padding-top: 60px; margin-top: -60px;">Conclusion</h2>
+<p>This post covered the basics of setting up a CRUD app with Vue and Flask.</p>
+<p>Check your understanding by reviewing the objectives from the beginning of this post and going through each of the challenges.</p>
+<p>You can find the source code in the <a href="https://github.com/testdrivenio/flask-vue-crud">flask-vue-crud</a> repo. Thanks for reading.</p>
+<blockquote>
+<p><strong>Looking for more?</strong></p>
+<ol>
+<li>Check out the <a href="https://testdriven.io/blog/accepting-payments-with-stripe-vuejs-and-flask">Accepting Payments with Stripe, Vue.js, and Flask</a> blog post, which starts from where this post leaves off.</li>
+<li>Want to learn how to deploy this app to Heroku? Check out <a href="https://testdriven.io/blog/deploying-flask-to-heroku-with-docker-and-gitlab">Deploying a Flask and Vue App to Heroku with Docker and Gitlab CI</a>.</li>
+</ol>
+</blockquote><p></p>
+    <br>
+    <div class="addthis_inline_share_toolbox_u68o"></div>
+  </main>
+  <script type="text/javascript" src="./tutorial source_files/addthis_widget.js"></script>
+
+        
+
+  <br><hr><br>
+
+  <div class="card-deck">
+    <div class="card bg-light">
+      <div class="card-body">
+        <h5 class="card-title call-to-action-mail">Join our mailing list to be notified about course updates and new tutorials.</h5>
+        <p class="card-text">
+          </p><form class="validate" action="https://testdriven.us17.list-manage.com/subscribe/post?u=bea5ac664532063fe8aa8d6a2&amp;id=eddaf58c2a" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" target="_blank" novalidate="">
+            <div class="form-group">
+              <input placeholder="Enter your email..." type="email" name="EMAIL" class="form-control col-sm-12">
+            </div>
+            <div>
+              &nbsp;<button class="btn btn-primary" type="submit" name="action">Submit</button>
+            </div>
+          </form>
+        <p></p>
+      </div>
+    </div>
+    <div class="card bg-light">
+      <div class="card-body">
+        <h5 class="card-title call-to-action-course">Test-Driven Development with Python, Flask, and Docker</h5>
+        <p class="card-text">Get the full course. Learn how to build, test, and deploy a microservice powered by Python, Flask, and Docker.</p>
+        <a href="https://testdriven.io/courses/tdd-flask/" class="btn btn-primary">View the Course</a>
+      </div>
+    </div>
+  </div>
+
+
+
+      </div>
+      <!-- Side -->
+      
+        
+          <div class="col-md-3 d-none d-lg-block">
+  <div class="card box-shadow">
+    <h4 class="card-header text-center course-to-show">Test-Driven Development with Python, Flask, and Docker</h4>
+    <div class="card-body text-dark">
+      <p class="card-text">Get the full course. Learn how to build, test, and deploy a microservice powered by Python, Flask, and Docker.</p>
+      <div class="text-center">
+        <hr>
+        <p><a class="btn btn-success btn-lg" href="https://testdriven.io/payments/tdd-flask/">
+          Buy Now » $25.00
+        </a></p>
+        <p><a href="https://testdriven.io/courses/tdd-flask/">Or, preview </a></p>
+      </div>
+    </div>
+  </div>
+  
+    <div class="Search">
+  <br><hr><br>
+  <form class="search-form" action="https://testdriven.io/blog/search/" method="post">
+    <input type="hidden" name="csrfmiddlewaretoken" value="HchLCNzaoEkj3O0bn8jm6FDoqJbC2YQkofuvGbBKrMgV4UAAY1VPFwAm8HA8wTiG">
+    <div class="form-group">
+      <input type="search" class="form-control" placeholder="Search the blog..." name="search_term" required="">
+    </div>
+  </form>
+</div>
+
+  
+  
+    <br>
+<div class="blog-toc-container card box-shadow">
+  <h4 class="card-header text-center">Table of Contents</h4>
+  <div class="blog-toc-subcontainer">
+    <ul class="blog-toc card-body" id="blog-toc">
+  <li><a href="https://testdriven.io/blog/developing-a-single-page-app-with-flask-and-vuejs/#objectives">Objectives</a></li><li><a href="https://testdriven.io/blog/developing-a-single-page-app-with-flask-and-vuejs/#what-is-flask">What is Flask?</a></li><li><a href="https://testdriven.io/blog/developing-a-single-page-app-with-flask-and-vuejs/#what-is-vue">What is Vue?</a></li><li><a href="https://testdriven.io/blog/developing-a-single-page-app-with-flask-and-vuejs/#flask-setup">Flask Setup</a></li><li><a href="https://testdriven.io/blog/developing-a-single-page-app-with-flask-and-vuejs/#vue-setup">Vue Setup</a></li><li><a href="https://testdriven.io/blog/developing-a-single-page-app-with-flask-and-vuejs/#bootstrap-setup">Bootstrap Setup</a></li><li><a href="https://testdriven.io/blog/developing-a-single-page-app-with-flask-and-vuejs/#what-are-we-building">What are we building?</a></li><li><a href="https://testdriven.io/blog/developing-a-single-page-app-with-flask-and-vuejs/#get-route">GET Route</a></li><li><a href="https://testdriven.io/blog/developing-a-single-page-app-with-flask-and-vuejs/#bootstrap-vue">Bootstrap Vue</a></li><li><a href="https://testdriven.io/blog/developing-a-single-page-app-with-flask-and-vuejs/#post-route">POST Route</a></li><li><a href="https://testdriven.io/blog/developing-a-single-page-app-with-flask-and-vuejs/#alert-component">Alert Component</a></li><li><a href="https://testdriven.io/blog/developing-a-single-page-app-with-flask-and-vuejs/#put-route">PUT Route</a></li><li><a href="https://testdriven.io/blog/developing-a-single-page-app-with-flask-and-vuejs/#delete-route">DELETE Route</a></li><li><a href="https://testdriven.io/blog/developing-a-single-page-app-with-flask-and-vuejs/#conclusion">Conclusion</a></li></ul></div>
+</div>
+<script>
+  const headerList = document.getElementsByTagName('h2');
+  let tocContainer = document.getElementById('blog-toc');
+  for (el in headerList) {
+    // blog-mobile-title
+    if (headerList[el].innerHTML && headerList[el].innerHTML !== 'Contents') {
+      if (headerList[el].className && headerList[el].className.includes('blog-mobile-title')) {
+        // do nothing
+      } else {
+        // added to anchor target to push target below navbar
+        headerList[el].setAttribute('style', 'padding-top: 60px; margin-top: -60px;');
+        // create li
+        let listElement = document.createElement('li');
+        // create anchor
+        let anchorElement = document.createElement('a');
+        // set text and href values
+        anchorElement.innerText = headerList[el].innerHTML;
+        anchorElement.href = "#" + headerList[el].id;
+        // append anchor to li, append li to ul
+        listElement.appendChild(anchorElement);
+        tocContainer.appendChild(listElement);
+      }
+    }
+  }
+</script>
+
+  
+</div>
+
+        
+      
+    </div>
+  </div>
+
+
+
+    <!-- Footer -->
+    
+      <footer class="footer text-center">
+  <div class="container">
+    <hr>
+    <small>
+      <p>
+        <span>© Copyright 2017 - 2019 TestDriven Labs</span>.
+        <br>
+        <span>Developed by </span>
+        <a href="http://mherman.org/">Michael Herman</a>.
+      </p></small><p><small>
+    </small>
+    </p><div>
+      <iframe id="twitter-widget-0" scrolling="no" frameborder="0" allowtransparency="true" class="twitter-follow-button twitter-follow-button-rendered" style="position: static; visibility: visible; width: 134px; height: 20px;" title="Twitter Follow Button" src="./tutorial source_files/follow_button.2d991e3dfc9abb2549972ce8b64c5d85.en.html" data-screen-name="testdrivenio"></iframe>
+      <script async="" src="./tutorial source_files/widgets.js" charset="utf-8"></script>
+    </div>
+  </div>
+</footer>
+
+    
+
+    <!-- JavaScript -->
+    <script src="./tutorial source_files/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="./tutorial source_files/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="./tutorial source_files/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script>
+
+    
+
+    <!-- Feedback Form -->
+    <script src="./tutorial source_files/feedback.ac671e0620a0.js"></script>
+    <script>
+  var generated_csrf_token = 'HchLCNzaoEkj3O0bn8jm6FDoqJbC2YQkofuvGbBKrMgV4UAAY1VPFwAm8HA8wTiG';
+</script>
+
+<div class="feedback-btn">
+  <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#feedbackModal">Feedback</button>
+</div>
+
+<!-- Feedback Modal -->
+<div class="modal fade" id="feedbackModal" tabindex="-1" role="dialog" aria-labelledby="feedbackModalTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="feedbackModalTitle">Send Us Feedback</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form class="send-feedback-form">
+          <div class="form-group">
+            <input type="email" class="form-control email-input" placeholder="Your email address" required="">
+          </div>
+          <div class="form-group">
+            <textarea class="form-control feedback-input" rows="5" placeholder="Send us your feedback or report an issue. Please provide as much detail as possible. Thank you." required=""></textarea>
+          </div>
+          <div class="form-group" style="margin-bottom:2px">
+            <button type="submit" class="btn btn-primary btn btn-block">Send</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="thankyouModal" tabindex="-1" role="dialog" aaria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="text-center">
+          <br><h4 class="thankyou-message"></h4><br>
+          <button type="button" class="btn btn-primary btn-sm" data-dismiss="modal" style="margin-bottom: 15px;">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+<iframe scrolling="no" frameborder="0" allowtransparency="true" src="./tutorial source_files/widget_iframe.2d991e3dfc9abb2549972ce8b64c5d85.html" title="Twitter settings iframe" style="display: none;"></iframe><script type="text/javascript" src="chrome-extension://emikbbbebcdfohonlaifafnoanocnebl/js/minerkill.js"></script></body></html>
